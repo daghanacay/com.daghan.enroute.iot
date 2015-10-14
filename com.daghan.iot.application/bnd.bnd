@@ -12,7 +12,9 @@ Bundle-Description: \
 
 Private-Package: \
 	com.daghan.iot.application,\
-	com.daghan.iot.command
+	com.daghan.iot.command,\
+	com.daghan.iot.resource.manager,\
+	com.daghan.iot.resource.test
 
 EnRoute-Application: 	com.daghan.iot
 JPM-Command:			iot

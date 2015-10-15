@@ -6,9 +6,9 @@ import com.daghan.iot.resource.manager.ResourceProvider;
 
 @Component(service = PrinterResource.class)
 public class PrinterResource {
-
+		
 	@ResourceProvider(url = "/output/sysout/1", resourceInputInterface = String.class, resourceOutputInterface = Void.class)
-	void printData(String output) {
+	public void printData(String output) {
 		System.out.println(output);
 	}
 }

@@ -1,6 +1,5 @@
 package com.daghan.iot.resource.manager;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -22,14 +21,12 @@ public class ResourceRunner {
 
 	@Activate
 	void activate(BundleContext context) throws InvalidSyntaxException {
-		System.out.println("Starting resource tracker." + context);
 		resourceTracker = new ResourceManagerImpl(context);
 		resourceTracker.open();
 	}
 
 	@Deactivate
 	void deactivate() {
-		System.out.println("Stopping resource tracker.");
 		resourceTracker.close();
 	}
 
@@ -37,9 +34,9 @@ public class ResourceRunner {
 		System.out.println(str);
 	}
 
-	public <Output, Input> Output activateResource(String url, Input input, Class<?> inputClass)
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		return resourceTracker.activateResource(url, input, inputClass);
+	public <Output, Input> Output activateResource(String url, Input input) throws IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, NoSuchMethodException{
+		return resourceTracker.activateResource(url, input);
 	}
 
 	private class ResourceManagerImpl extends ServiceTracker {
@@ -49,24 +46,20 @@ public class ResourceRunner {
 			super(context, FrameworkUtil.createFilter("(" + Constants.OBJECTCLASS + "=*)"), null);
 		}
 
-		public <Output, Input> Output activateResource(String url, Input input, Class<?> inputClass)
-				throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		public <Output, Input> Output activateResource(String url, Input input) throws IllegalAccessException,
+				IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
 			for (Object service : getServices()) {
 				for (Method method : service.getClass().getMethods()) {
 					ResourceProvider providerAnnotation = method.getAnnotation(ResourceProvider.class);
-					if (providerAnnotation != null && providerAnnotation.url().equalsIgnoreCase(url)) {
-						System.out.println(providerAnnotation.url());
-						// check if input and output interfaces passed to us can
-						// work with the method we found
-						if (method.getParameterTypes()[0].isInstance(input)) {
+					if (providerAnnotation != null) {
+						String urlVal = (String) service.getClass().getMethod(providerAnnotation.url()).invoke(service);
+						if (urlVal.equalsIgnoreCase(url)) {
+							System.out.println(url);
 							// we found the method lets run it
 							return (Output) method.invoke(service, input);
-						} else {
-							System.out.println("Input and output interface doea not fit the annotated method");
 						}
 					}
 				}
-
 			}
 			// no annotated method is found
 			return null;

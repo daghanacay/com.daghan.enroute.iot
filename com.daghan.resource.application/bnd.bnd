@@ -13,7 +13,7 @@ Bundle-Description: \
 Private-Package: \
 	com.daghan.resource.application,\
 	com.daghan.iot.resource.manager,\
-	com.daghan.iot.resource.test,\
+	com.daghan.iot.resource.impl,\
 	com.daghan.resource.command
 
 EnRoute-Application: 	com.daghan.resource

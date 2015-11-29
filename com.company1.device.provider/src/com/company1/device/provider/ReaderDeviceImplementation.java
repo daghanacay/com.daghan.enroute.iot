@@ -1,4 +1,4 @@
-package com.daghan.iot.resource.impl.provider1;
+package com.company1.device.provider;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;

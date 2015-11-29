@@ -10,10 +10,14 @@ JPM-Command:					resourc
 
 -runfw:						org.eclipse.osgi
 
--runrequires:  \
-	osgi.identity;filter:='(osgi.identity=com.daghan.resource.application)'
+-runrequires: \
+	osgi.identity;filter:='(osgi.identity=com.daghan.resource.application)',\
+	osgi.identity;filter:='(osgi.identity=com.company1.device.provider)',\
+	osgi.identity;filter:='(osgi.identity=com.company2.device.provider)'
 
 -runbundles: \
+	com.company1.device.provider;version=snapshot,\
+	com.company2.device.provider;version=snapshot,\
 	com.daghan.resource.application;version=snapshot,\
 	org.apache.felix.configadmin;version='[1.8.6,1.8.7)',\
 	org.apache.felix.http.api;version='[3.0.0,3.0.1)',\

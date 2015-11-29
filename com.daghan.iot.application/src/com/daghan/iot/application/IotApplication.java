@@ -13,7 +13,7 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 @RequireWebServerExtender
 @RequireConfigurerExtender
 @Component(name="com.daghan.iot")
-public class IotApplication implements REST {
+public class IotApplication implements REST { 
 
 	public String getUpper(String string) {
 		return string.toUpperCase();

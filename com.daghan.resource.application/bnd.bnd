@@ -13,8 +13,10 @@ Bundle-Description: \
 Private-Package: \
 	com.daghan.resource.application,\
 	com.daghan.iot.resource.manager,\
-	com.daghan.iot.resource.impl,\
-	com.daghan.resource.command
+	com.daghan.iot.resource.impl.provider1,\
+	com.daghan.resource.command,\
+	com.daghan.iot.core.api,\
+	com.daghan.iot.resource.impl.provider2
 
 EnRoute-Application: 	com.daghan.resource
 JPM-Command:			resourc

@@ -12,6 +12,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.util.tracker.ServiceTracker;
 
+import com.daghan.iot.core.api.Device;
+import com.daghan.iot.core.api.MethodTypeEnum;
+
 import osgi.enroute.debug.api.Debug;
 
 @Component(service = ResourceRunner.class, immediate = true, property = { Debug.COMMAND_SCOPE + "=res",
@@ -34,27 +37,35 @@ public class ResourceRunner {
 		System.out.println(str);
 	}
 
-	public <Output, Input> Output activateResource(String url, Input input) throws IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException, NoSuchMethodException{
-		return resourceTracker.activateResource(url, input);
+	public <O, I> O activateResource(String requestServiceId, I input, Class<O> outputType, MethodTypeEnum methodType)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+		return resourceTracker.activateResource(requestServiceId, input, outputType, methodType);
 	}
 
-	private class ResourceManagerImpl extends ServiceTracker {
-		@SuppressWarnings("unchecked")
+	private class ResourceManagerImpl extends ServiceTracker<Device, Device> {
 		public ResourceManagerImpl(BundleContext context) throws InvalidSyntaxException {
 			// track all services
-			super(context, FrameworkUtil.createFilter("(" + Constants.OBJECTCLASS + "=*)"), null);
+			super(context, FrameworkUtil.createFilter("(" + Constants.OBJECTCLASS + "=com.daghan.iot.core.api.Device)"),
+					null);
 		}
 
-		public <Output, Input> Output activateResource(String url, Input input) throws IllegalAccessException,
-				IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
+		public <Output, Input> Output activateResource(String requestServiceId, Input input, Class<?> outputType,
+				MethodTypeEnum methodType) throws IllegalAccessException, IllegalArgumentException,
+						InvocationTargetException, NoSuchMethodException {
 			for (Object service : getServices()) {
-				for (Method method : service.getClass().getMethods()) {
-					ResourceProvider providerAnnotation = method.getAnnotation(ResourceProvider.class);
-					if (providerAnnotation != null) {
-						String urlVal = (String) service.getClass().getMethod(providerAnnotation.url()).invoke(service);
-						if (urlVal.equalsIgnoreCase(url)) {
-							System.out.println(url);
+				Device deviceService = (Device) service;
+				// Check if this is the service we are interested
+				if (requestServiceId.equalsIgnoreCase(deviceService.getId())) {
+					for (Method method : deviceService.getClass().getDeclaredMethods()) {
+						Object providerAnnotation;
+						providerAnnotation = method.getAnnotation(methodType.getAnnotation());
+						// We only allow zero or one parameter methods
+						if (providerAnnotation != null && method.getParameters().length <= 1
+								&& method.getReturnType().isAssignableFrom(outputType)) {
+							// Allow calling even private, protected, or no
+							// modifier
+							method.setAccessible(true);
+
 							// we found the method lets run it
 							return (Output) method.invoke(service, input);
 						}

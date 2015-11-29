@@ -1,7 +1,0 @@
-{
- "revisionRefs":[{
-  "artifactId":"org.apache.felix.shell","baseline":"1.4.3","bsn":"org.apache.felix.shell","created":1331046528400,"description":"A simple OSGi command shell service.","groupId":"org.apache.felix","md5":"96087ECF21DD1E9824193439FBE57DFF","name":"Apache Felix Shell Service","phase":"MASTER","revision":"649B5B55C6C5388654EEE75706F1258E1E307DDB","size":61708,"urls":["http://repo1.maven.org/maven2/org/apache/felix/org.apache.felix.shell/1.4.3/org.apache.felix.shell-1.4.3.jar"],"version":"1.4.3"
- },{
-  "artifactId":"org.apache.felix.shell.remote","baseline":"1.1.2","bsn":"org.apache.felix.shell.remote","created":1285686690074,"description":"Provide remote access to Felix Shell or Gogo.","groupId":"org.apache.felix","md5":"D95C6AC1FCB48362B61502E446E17BD0","name":"Apache Felix Remote Shell","phase":"MASTER","revision":"B35329BB3BC290FCD60C9F73C72656FCBA7D9162","size":22183,"urls":["http://repo1.maven.org/maven2/org/apache/felix/org.apache.felix.shell.remote/1.1.2/org.apache.felix.shell.remote-1.1.2.jar"],"version":"1.1.2"
- }]
-}

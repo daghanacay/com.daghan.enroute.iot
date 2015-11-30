@@ -6,8 +6,6 @@ Bundle-Version:1.0.0.${tstamp}
 Bundle-Description: 				\
 	This is  project. An API project should in general not contain any \
 	implementation code.\
-	\
-	${warning;Please update this Bundle-Description in com.daghan.iot.api/bnd.bnd}
 
 	
 Export-Package: \

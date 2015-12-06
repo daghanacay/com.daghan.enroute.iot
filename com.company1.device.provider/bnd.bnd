@@ -33,4 +33,5 @@ Private-Package:  \
 Export-Package: \
 	com.daghan.iot.core.api,\
 	com.daghan.iot.resource.manager,\
-	com.daghan.resource.command
+	com.daghan.resource.command,\
+	com.daghan.iot.utils

@@ -13,11 +13,15 @@ import osgi.enroute.debug.api.Debug;
 public class URLuserCommand {
 
 	public void dagUrl(String str) throws Exception {
-		URL dagUrl = new URL("daghan:POST//deli:kiro@" + Math.random() + ".txt?close=hello");
-		URL dagUrl2 = new URL("daghan:GET//deli:kiro@" + Math.random() + ".txt?close=hello");
-		URLConnection connection1 = dagUrl.openConnection();
-		URLConnection connection1a = dagUrl.openConnection();
-		URLConnection connection2 = dagUrl2.openConnection();
+		URL gpioUrl = new URL("gpio:POST//admin:admin@pin/1");
+		URLConnection connection1 = gpioUrl.openConnection();
+		String content = (String) connection1.getContent();
+		System.out.println(content);
+//		URL gpioUrl2 = new URL("gpio:GET//admin:admin@pin/1?period=1000");
+//		URLConnection connection1a = gpioUrl2.openConnection();
+//		
+//		URL dagUrl = new URL("daghan:GET//deli:kiro@simple.txt?close=true");
+//		URLConnection connection2 = dagUrl.openConnection();
 
 	}
 

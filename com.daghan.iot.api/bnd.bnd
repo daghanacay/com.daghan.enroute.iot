@@ -11,7 +11,8 @@ Bundle-Description: 				\
 Export-Package: \
 	com.daghan.iot.core.api,\
 	com.daghan.resource.command,\
-	com.daghan.iot.resource.manager
+	com.daghan.iot.resource.manager,\
+	com.daghan.iot.utils
 
 
 Require-Capability: \

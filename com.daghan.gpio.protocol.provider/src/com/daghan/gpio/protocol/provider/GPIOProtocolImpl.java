@@ -27,6 +27,7 @@ public class GPIOProtocolImpl extends AbstractURLStreamHandlerService implements
 	// as URL are ready for garbage collection, you can call System.gc() if you
 	// wish to trigger memory clean up
 	private Map<URL, MethodTypeEnum> urlMethodMap = Collections.synchronizedMap(new WeakHashMap<URL, MethodTypeEnum>());
+	
 
 	@Override
 	public URLConnection openConnection(URL u) throws IOException {
@@ -44,5 +45,7 @@ public class GPIOProtocolImpl extends AbstractURLStreamHandlerService implements
 		// broken due to changing hash value of the URL instance
 		urlMethodMap.put(u, type);
 	}
+	
+	
 
 }

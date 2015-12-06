@@ -1,17 +1,25 @@
 package com.daghan.gpio.protocol.provider;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.invoke.MethodType;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.daghan.iot.core.api.MethodTypeEnum;
 import com.daghan.iot.utils.StringUtils;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioPin;
+import com.pi4j.io.gpio.GpioPinDigital;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinState;
 
 /**
  * Creates a connection to GPIO.
@@ -27,7 +35,8 @@ public class GPIOConnection extends URLConnection {
 	// Input stream for the connection
 	protected InputStream inputStream;
 	// Output stream for the connection
-	protected OutputStream outputStream;
+	protected OutputStream outputStream = new ByteArrayOutputStream();
+	private GpioController gpioContoller;
 
 	protected GPIOConnection(URL url, MethodTypeEnum methodType) {
 		super(url);
@@ -44,10 +53,12 @@ public class GPIOConnection extends URLConnection {
 			case GET:
 				super.doInput = true;
 				super.doOutput = false;
+				doGet();
 				break;
 			case POST:
 				super.doInput = true;
 				super.doOutput = true;
+				doPost();
 				break;
 			case DELETE:
 				super.doInput = false;
@@ -57,10 +68,79 @@ public class GPIOConnection extends URLConnection {
 				logger.error("Should never end up here. This is a request type " + methodType);
 				break;
 			}
-			inputStream = StringUtils
-					.convertStringToInputStream("Welcome to GPIO protocol u are using " + methodType.name());
 			connected = true;
 		}
+	}
+
+	private void doPost() throws UnsupportedEncodingException {
+		int pinNumber = getPinNumber();
+		if (pinNumber == -1) {
+			return;
+		}
+		// Read the command from the payload
+		String command = outputStream.toString();
+		GpioPinDigital pin = findPin(pinNumber);
+		if ((pin == null) || !(pin instanceof GpioPinDigitalOutput)) {
+			inputStream = StringUtils.convertStringToInputStream(
+					"Pin is not configured properly. Please check with your device configuration.");
+		}
+
+		if (command.equalsIgnoreCase("ON")) {
+			gpioContoller.setState(true, (GpioPinDigitalOutput) pin);
+		} else {
+			gpioContoller.setState(false, (GpioPinDigitalOutput) pin);
+		}
+
+	}
+
+	private GpioPinDigital findPin(int pinNumber) {
+		for (GpioPin tmp : gpioContoller.getProvisionedPins()) {
+			if (tmp.getPin().getAddress() == pinNumber) {
+				// This pin should be configured as digital pin but it is worth
+				// making a check
+				if (tmp instanceof GpioPinDigital) {
+					return (GpioPinDigital) tmp;
+				}
+			}
+		}
+		return null;
+	}
+
+	private int getPinNumber() {
+		int pinNumber = -1;
+		try {
+			pinNumber = Integer.parseInt(getURL().getFile());
+		} catch (NumberFormatException e) {
+			inputStream = StringUtils.convertStringToInputStream(
+					getURL().getFile() + " is not a number. Please chcek with your device provider implementation.");
+		}
+		return pinNumber;
+	}
+
+	/**
+	 * does get request on a pin. It assumes the pin is configured as
+	 * {@link GpioPinDigital}, if not then the error is written to output stream
+	 */
+	private void doGet() {
+		int pinNumber = getPinNumber();
+		if (pinNumber == -1) {
+			return;
+		}
+		PinState pinValue;
+		GpioPinDigital pin = findPin(pinNumber);
+		if (pin == null) {
+			inputStream = StringUtils.convertStringToInputStream(
+					"Pin is not configured properly. Please check with your device configuration.");
+			return;
+		}
+		pinValue = gpioContoller.getState(pin);
+		// Write the result back to the requester
+		if (pinValue.isHigh()) {
+			inputStream = new ByteArrayInputStream(new byte[] { '1' });
+		} else {
+			inputStream = new ByteArrayInputStream(new byte[] { '0' });
+		}
+
 	}
 
 	/**
@@ -90,6 +170,7 @@ public class GPIOConnection extends URLConnection {
 		if (super.doOutput) {
 			returnVal = outputStream;
 		}
+
 		return returnVal;
 	}
 
@@ -111,6 +192,11 @@ public class GPIOConnection extends URLConnection {
 	public final void setDoOutput(boolean doinput) {
 		throw new UnsupportedOperationException(
 				"Only implementations can change the input and output characteristics.");
+	}
+
+	@Reference(target = "(|(board.type=Model2B_Rev1)(board.type=ModelB_Plus_Rev1))")
+	void setGpioController(GpioController controller) {
+		this.gpioContoller = controller;
 	}
 
 }

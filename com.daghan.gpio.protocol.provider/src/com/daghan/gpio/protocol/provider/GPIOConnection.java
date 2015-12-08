@@ -38,9 +38,10 @@ public class GPIOConnection extends URLConnection {
 	protected OutputStream outputStream = new ByteArrayOutputStream();
 	private GpioController gpioContoller;
 
-	protected GPIOConnection(URL url, MethodTypeEnum methodType) {
+	protected GPIOConnection(URL url, MethodTypeEnum methodType, GpioController gpioContoller) {
 		super(url);
 		this.methodType = methodType;
+		this.gpioContoller = gpioContoller;
 	}
 
 	@Override
@@ -83,13 +84,16 @@ public class GPIOConnection extends URLConnection {
 		if ((pin == null) || !(pin instanceof GpioPinDigitalOutput)) {
 			inputStream = StringUtils.convertStringToInputStream(
 					"Pin is not configured properly. Please check with your device configuration.");
+			return;
 		}
 
-		if (command.equalsIgnoreCase("ON")) {
+		if (command.equalsIgnoreCase("HIGH")) {
 			gpioContoller.setState(true, (GpioPinDigitalOutput) pin);
 		} else {
 			gpioContoller.setState(false, (GpioPinDigitalOutput) pin);
 		}
+		inputStream = StringUtils.convertStringToInputStream(
+				"Success");
 
 	}
 
@@ -109,7 +113,8 @@ public class GPIOConnection extends URLConnection {
 	private int getPinNumber() {
 		int pinNumber = -1;
 		try {
-			pinNumber = Integer.parseInt(getURL().getFile());
+			// We should get /1 for the file in URL
+			pinNumber = Integer.parseInt(getURL().getFile().substring(1));
 		} catch (NumberFormatException e) {
 			inputStream = StringUtils.convertStringToInputStream(
 					getURL().getFile() + " is not a number. Please chcek with your device provider implementation.");
@@ -165,13 +170,7 @@ public class GPIOConnection extends URLConnection {
 	 */
 	@Override
 	public OutputStream getOutputStream() throws IOException {
-		OutputStream returnVal = null;
-		connect();
-		if (super.doOutput) {
-			returnVal = outputStream;
-		}
-
-		return returnVal;
+		return outputStream;
 	}
 
 	/**
@@ -192,11 +191,6 @@ public class GPIOConnection extends URLConnection {
 	public final void setDoOutput(boolean doinput) {
 		throw new UnsupportedOperationException(
 				"Only implementations can change the input and output characteristics.");
-	}
-
-	@Reference(target = "(|(board.type=Model2B_Rev1)(board.type=ModelB_Plus_Rev1))")
-	void setGpioController(GpioController controller) {
-		this.gpioContoller = controller;
 	}
 
 }

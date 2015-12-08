@@ -1,5 +1,7 @@
 package com.daghan.resource.command;
 
+import java.io.BufferedOutputStream;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Random;
@@ -13,12 +15,18 @@ import osgi.enroute.debug.api.Debug;
 public class URLuserCommand {
 
 	public void dagUrl(String str) throws Exception {
-		URL gpioUrl = new URL("gpio:POST//admin:admin@pin/1");
+		
+		//OUT GPIO 8 (or I2C SDA1) (.03) Low
+		URL gpioUrl = new URL("gpio:POST//admin:admin@pin/8");
 		URLConnection connection1 = gpioUrl.openConnection();
+		connection1.getOutputStream().write("HIGH".getBytes());
 		String content = (String) connection1.getContent();
 		System.out.println(content);
-//		URL gpioUrl2 = new URL("gpio:GET//admin:admin@pin/1?period=1000");
-//		URLConnection connection1a = gpioUrl2.openConnection();
+		// IN GPIO 9 (or I2C SCL1) (.05)
+		URL gpioUrl2 = new URL("gpio:GET//admin:admin@pin/9");
+		URLConnection connection1a = gpioUrl2.openConnection();
+		content = (String) connection1a.getContent();
+		System.out.println(content);
 //		
 //		URL dagUrl = new URL("daghan:GET//deli:kiro@simple.txt?close=true");
 //		URLConnection connection2 = dagUrl.openConnection();

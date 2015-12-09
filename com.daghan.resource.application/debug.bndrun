@@ -11,6 +11,7 @@
 -runbundles: \
 	com.company1.device.provider;version=snapshot,\
 	com.company2.device.provider;version=snapshot,\
+	com.company3.device.gpio.provider;version=snapshot,\
 	com.daghan.gpio.protocol.provider;version=snapshot,\
 	com.daghan.resource.application;version=snapshot,\
 	com.springsource.org.json;version='[1.0.0,1.0.1)',\

@@ -1,5 +1,10 @@
 package com.company3.device.gpio.provider;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -11,6 +16,8 @@ import com.company3.device.gpio.provider.GpioDeviceImpl.InputOutputEnum;
 import com.company3.device.gpio.provider.GpioDeviceImpl.PinLevelEnum;
 import com.company3.device.gpio.provider.GpioDeviceImpl.PinNumberEnum;
 import com.daghan.iot.core.api.Device;
+import com.daghan.iot.core.api.MethodTypeEnum.GetMethod;
+import com.daghan.iot.core.api.MethodTypeEnum.PostMethod;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioPin;
 import com.pi4j.io.gpio.GpioPinDigital;
@@ -18,6 +25,7 @@ import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.RaspiPin;
 
 /**
  * 
@@ -25,7 +33,7 @@ import com.pi4j.io.gpio.PinPullResistance;
 @ObjectClassDefinition(name = "Digital Pin Configuration")
 @interface DigitalPinConfiguration {
 	@AttributeDefinition(name = "Device name", description = "Specifies this to be used by other devices.")
-	String name() default "Pin8Input";
+	String name() default "Pin8Output";
 
 	@AttributeDefinition(name = "Pin number that can be used for digital input/output", description = "Select the pin to be configured.")
 	PinNumberEnum pinNumber() default PinNumberEnum.pin8;
@@ -77,17 +85,23 @@ public class GpioDeviceImpl implements Device {
 		configurePin();
 	}
 
-	private GpioPinDigital findPin(int pinNumber) {
-		for (GpioPin tmp : gpioContoller.getProvisionedPins()) {
-			if (tmp.getPin().getAddress() == pinNumber) {
-				// This pin should be configured as digital pin but it is worth
-				// making a check
-				if (tmp instanceof GpioPinDigital) {
-					return (GpioPinDigital) tmp;
-				}
-			}
-		}
-		return null;
+	@GetMethod
+	public String getPinValue() throws IOException {
+		URL gpioUrl2 = new URL("gpio:GET//admin:admin@pin/" + config.pinNumber().getVal());
+		URLConnection connection1a = gpioUrl2.openConnection();
+		return (String) connection1a.getContent();
+	}
+
+	@PostMethod
+	public String setPinValue(String value) throws IOException {
+		URL gpioUrl = new URL("gpio:POST//admin:admin@pin/" + config.pinNumber().getVal());
+		URLConnection connection1 = gpioUrl.openConnection();
+		connection1.getOutputStream().write(value.getBytes());
+		return (String) connection1.getContent();
+	}
+
+	private Pin findPin(int pinNumber) {
+		return RaspiPin.getPinByName("GPIO " + pinNumber);
 	}
 
 	private void unprovision(Pin pin) {

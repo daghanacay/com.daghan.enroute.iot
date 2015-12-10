@@ -23,6 +23,7 @@ import osgi.enroute.debug.api.Debug;
 @Designate(ocd = ResourceCommandConfig.class)
 public class ResourceUserCommand {
 	ResourceCommandConfig config;
+	@Reference
 	private ResourceRunner rm;
 
 	@Activate
@@ -36,9 +37,5 @@ public class ResourceUserCommand {
 			System.out.println(output);
 		}
 	}
-
-	@Reference
-	void setResourceManager(ResourceRunner rm) {
-		this.rm = rm;
-	}
+	
 }

@@ -6,6 +6,7 @@ import org.osgi.service.metatype.annotations.Designate;
 
 import com.daghan.iot.core.api.Device;
 import com.daghan.iot.core.api.MethodTypeEnum.GetMethod;
+import com.daghan.iot.core.api.MethodTypeEnum.PostMethod;
 
 @Component
 @Designate(ocd = ReaderDeviceConfig.class, factory = true)
@@ -18,8 +19,13 @@ public class ReaderDeviceImplementation implements Device {
 	}
 
 	@GetMethod
-	private String getValue(String command) {
-		return config.getPrependString() + command;
+	private String getValue() {
+		return config.getPrependString();
+	}
+	
+	@PostMethod
+	private String writeValue(String str) {
+		return config.getPrependString() + str;
 	}
 
 	@Override

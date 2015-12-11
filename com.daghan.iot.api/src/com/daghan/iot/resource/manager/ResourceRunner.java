@@ -65,9 +65,15 @@ public class ResourceRunner {
 							// Allow calling even private, protected, or no
 							// modifier
 							method.setAccessible(true);
-
-							// we found the method lets run it
-							return (Output) method.invoke(service, input);
+							switch (methodType) {
+							case GET:
+								// we found the method lets run it
+								return (Output) method.invoke(service, null);
+							case POST:
+								return (Output) method.invoke(service, input);
+							case DELETE:
+								return (Output) method.invoke(service, null);
+							}
 						}
 					}
 				}

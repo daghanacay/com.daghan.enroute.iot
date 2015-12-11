@@ -37,14 +37,14 @@ public class URLuserCommand {
 	public void dagUrl(String str) throws Exception {
 
 		// OUT GPIO 8 (or I2C SDA1) (.03) Low
-		for (String postPin : config.getResourceNamesPost()) {
-			String output = rm.activateResource(postPin, str, String.class, MethodTypeEnum.POST);
+		for (String postResource : config.getResourceNamesPost()) {
+			String output = rm.activateResource(postResource, str, String.class, MethodTypeEnum.POST);
 			System.out.println(output);
 		}
 
 		// IN GPIO 9 (or I2C SCL1) (.05)
-		for (String getPin : config.getResourceNamesPost()) {
-			String output = rm.activateResource(getPin, str, String.class, MethodTypeEnum.GET);
+		for (String getResource : config.getResourceNamesGet()) {
+			String output = rm.activateResource(getResource, null, String.class, MethodTypeEnum.GET);
 			System.out.println(output);
 		}
 

@@ -45,7 +45,7 @@ import com.pi4j.io.gpio.RaspiPin;
 	PinLevelEnum pinLevel() default PinLevelEnum.high;
 }
 
-@Component(name = "com.company3.device.gpio")
+@Component
 @Designate(ocd = DigitalPinConfiguration.class, factory = true)
 public class GpioDeviceImpl implements Device {
 	private DigitalPinConfiguration config;
@@ -83,6 +83,12 @@ public class GpioDeviceImpl implements Device {
 	public void activate(DigitalPinConfiguration config) {
 		this.config = config;
 		configurePin();
+	}
+
+	// Override to make it more user friendly and make the configuration easy
+	@Override
+	public String getId() {
+		return config.name();
 	}
 
 	@GetMethod

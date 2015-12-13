@@ -88,9 +88,9 @@ public class GPIOConnection extends URLConnection {
 		}
 
 		if (command.equalsIgnoreCase("HIGH")) {
-			gpioContoller.setState(true, (GpioPinDigitalOutput) pin);
+			((GpioPinDigitalOutput) pin).setState(PinState.HIGH);
 		} else {
-			gpioContoller.setState(false, (GpioPinDigitalOutput) pin);
+			((GpioPinDigitalOutput) pin).setState(PinState.LOW);
 		}
 		inputStream = StringUtils.convertStringToInputStream(
 				"Success");

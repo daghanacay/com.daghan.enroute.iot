@@ -52,6 +52,9 @@ public class ResourceRunner {
 		public <Output, Input> Output activateResource(String requestServiceId, Input input, Class<?> outputType,
 				MethodTypeEnum methodType) throws IllegalAccessException, IllegalArgumentException,
 						InvocationTargetException, NoSuchMethodException {
+			Object[] services = getServices();
+			if (services == null)
+				return null;
 			for (Object service : getServices()) {
 				Device deviceService = (Device) service;
 				// Check if this is the service we are interested

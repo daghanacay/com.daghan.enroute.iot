@@ -56,12 +56,25 @@ public class DiscoBallApplication {
 	}
 
 	@Modified
-	public void modified(DiscoballConfig config) {
+	public void modified(DiscoballConfig config) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
 		this.config = config;
+		switch (config.start()) {
+		case START:
+			runThread = true;
+			new DiscoThread().start();
+			break;
+		case STOP:
+			runThread = false;
+			rm.activateResource(config.redColorResource(), "LOW", String.class, MethodTypeEnum.POST);
+			rm.activateResource(config.greenColorResource(), "LOW", String.class, MethodTypeEnum.POST);
+			rm.activateResource(config.blueColorResource(), "LOW", String.class, MethodTypeEnum.POST);
+			break;
+		}
 	}
-	
+
 	@Deactivate
-	public void deactivate() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException{
+	public void deactivate()
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException {
 		runThread = false;
 		rm.activateResource(config.redColorResource(), "LOW", String.class, MethodTypeEnum.POST);
 		rm.activateResource(config.greenColorResource(), "LOW", String.class, MethodTypeEnum.POST);

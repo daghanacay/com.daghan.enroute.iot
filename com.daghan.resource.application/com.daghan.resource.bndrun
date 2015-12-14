@@ -14,7 +14,8 @@ JPM-Command:					resourc
 	osgi.identity;filter:='(osgi.identity=com.daghan.resource.application)',\
 	osgi.identity;filter:='(osgi.identity=com.company1.device.provider)',\
 	osgi.identity;filter:='(osgi.identity=com.company2.device.provider)',\
-	osgi.identity;filter:='(osgi.identity=com.company3.device.gpio.provider)'
+	osgi.identity;filter:='(osgi.identity=com.company3.device.gpio.provider)',\
+	osgi.identity;filter:='(osgi.identity=com.daghan.gpio.protocol.provider)'
 
 -runbundles: \
 	com.company1.device.provider;version=snapshot,\

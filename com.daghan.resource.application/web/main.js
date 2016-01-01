@@ -75,7 +75,8 @@
 				    method : 'GET',
 				    url : '/system/console/bundles.json'
 				}).then(function successCallback(response) {
-				    vm.resources = response.data.data;
+				    vm.resources = $filter('filter')(response.data.data,{category:"IoT"},true);
+				    vm.select(vm.resources[0]);
 				}, function errorCallback(response) {
 				    this.alerts.push({
 					type : 'failure',

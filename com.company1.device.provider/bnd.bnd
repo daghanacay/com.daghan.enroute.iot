@@ -1,6 +1,9 @@
 #
 #  BUNDLE 
 #
+### Iot Framework related variables
+## Management portal use this to filter out the bundles that are relevant to our framework
+Bundle-Category: IoT
 
 
 Bundle-Version:					1.0.0.${tstamp}

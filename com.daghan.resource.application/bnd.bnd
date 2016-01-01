@@ -1,6 +1,8 @@
 #
 #  APPLICATION
 #
+Project-Name: Resource Controller
+
 
 Bundle-Version: 1.0.0.${tstamp}
 Bundle-Description: \

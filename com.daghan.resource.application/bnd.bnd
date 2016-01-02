@@ -29,6 +29,7 @@ JPM-Command:			resourc
 Private-Package: \
 	com.daghan.resource.application,\
 	com.daghan.resource.application.disco
+	
 -runbundles: \
 	com.company1.device.provider;version=snapshot,\
 	com.company2.device.provider;version=snapshot,\

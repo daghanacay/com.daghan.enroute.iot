@@ -10,16 +10,19 @@ Bundle-Description: 				\
 	
 Export-Package: \
 	com.daghan.iot.core.api,\
-	com.daghan.resource.command,\
 	com.daghan.iot.resource.manager,\
 	com.daghan.iot.utils
 
-
-Require-Capability: \
-	compile-only
 
 -buildpath: \
 	osgi.enroute.base.api;version=1.0
 
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12
+-runbundles: org.apache.felix.log;version='[1.0.1,1.0.2)'
+Private-Package: \
+	com.daghan.resource.command,\
+	com.daghan.resource.web,\
+	com.daghan.resource.web.rest,\
+	com.daghan.resource.web.rest.dto,\
+	com.daghan.iot.utils.internal

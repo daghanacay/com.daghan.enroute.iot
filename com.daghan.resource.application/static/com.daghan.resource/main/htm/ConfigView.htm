@@ -1,0 +1,26 @@
+<div ng-controller="ConfigController as cfgCtrl">
+
+	<div class="row">
+		<!-- Left column -->
+		<div class="col-sm-12">
+			<div>
+				<table class="table table-hover fixed">
+					<caption>Configurations</caption>
+					<thead>
+						<tr>
+							<th width="100px">Key</th>
+							<th>Name</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr ng-repeat="config in cfgCtrl.configs">
+							<td>{{config.key}}</td>
+							<td>{{config.factoryPid}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

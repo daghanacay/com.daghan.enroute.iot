@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en" ng-app="com.daghan.resource">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,68 +22,16 @@
 
 </head>
 
-<body>
+<body ng-app="iotManagementPortalApp">
 	<div class="container">
-		<div class="header"></div>
-		<div ng-controller="BundleController as bundleCtrl">
-			<div class="row">
-				<!-- Right column -->
-				<div class="col-sm-5">
-					<div>
-						<ul class="nav nav-pills"
-							ng-repeat="bundle in bundleCtrl.resources">
-							<li ng-class="{active: bundleCtrl.isSelected(bundle)}"><a
-								ng-click="bundleCtrl.select(bundle)">{{bundle.name}}</a></li>
-						</ul>
-					</div>
-				</div>
-				<!-- Right column -->
-				<div class="col-sm-7" ng-hide="bundleCtrl.selected.length===0">
-					<!-- Functional buttons -->
-					<ul class="nav nav-pills pull-right">
-						<li ng-show="bundleCtrl.hasStart()"><a
-							ng-click="bundleCtrl.updateBundleState('start')">Start</a></li>
-						<li ng-show="bundleCtrl.hasStop()"><a
-							ng-click="bundleCtrl.updateBundleState('stop')">Stop</a></li>
-						<li><a ng-click="bundleCtrl.updateBundleState('refresh')">Restart</a></li>
-						<li><a ng-click="bundleCtrl.updateBundleState('update')">Update</a></li>
-						<li ng-show="bundleCtrl.hasUninstall()"><a
-							ng-click="bundleCtrl.updateBundleState('uninstall')">Uninstall</a></li>
-					</ul>
-
-					<table class="table table-hover fixed">
-						<caption>Bundle Properties</caption>
-						<thead>
-							<tr>
-								<th width="100px">Property</th>
-								<th>Value</th>
-							</tr>
-						</thead>
-
-						<tbody>
-							<tr>
-								<td>Name</td>
-								<td>{{bundleCtrl.selected.name}}</td>
-							</tr>
-							<tr>
-								<td>ID</td>
-								<td>{{bundleCtrl.selected.id}}</td>
-							</tr>
-							<tr class="{{bundleCtrl.selectedState}}">
-								<td>State</td>
-								<td>{{bundleCtrl.selected.state}}</td>
-							</tr>
-
-						</tbody>
-
-					</table>
-				</div>
-			</div>
-
+		<div class="header">
+			<ul class="nav nav-pills pull-right" ng-controller="MainController as mainCtrl">
+				<li ng-class="{active: mainCtrl.page() == '/bundles'}"><a href="#/bundles">Bundles</a></li>
+				<li ng-class="{active: mainCtrl.page() == '/configurations'}"><a href="#/configurations">Configurations</a></li>
+			</ul>
 		</div>
-		<!-- End of Bundle controller -->
-	</div>
+		<div ng-view></div>
 
-	<script src="/osgi.enroute.webresource/${bsn}/${Bundle-Version}/*.js"></script>
+		<script src="/osgi.enroute.webresource/${bsn}/${Bundle-Version}/*.js"></script>
 </body>
 </html>

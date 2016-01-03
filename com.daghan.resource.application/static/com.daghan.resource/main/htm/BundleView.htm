@@ -1,0 +1,55 @@
+<div ng-controller="BundleController as bundleCtrl">
+	<div class="row">
+		<!-- Left column -->
+		<div class="col-sm-5">
+			<div>
+				<ul class="nav nav-pills" ng-repeat="bundle in bundleCtrl.resources">
+					<li ng-class="{active: bundleCtrl.isSelected(bundle)}"><a
+						ng-click="bundleCtrl.select(bundle)">{{bundle.name}}</a></li>
+				</ul>
+			</div>
+		</div>
+		<!-- Right column -->
+		<div class="col-sm-7" ng-hide="bundleCtrl.selected.length===0">
+			<!-- Functional buttons -->
+			<ul class="nav nav-pills pull-right">
+				<li ng-show="bundleCtrl.hasStart()"><a
+					ng-click="bundleCtrl.updateBundleState('start')">Start</a></li>
+				<li ng-show="bundleCtrl.hasStop()"><a
+					ng-click="bundleCtrl.updateBundleState('stop')">Stop</a></li>
+				<li><a ng-click="bundleCtrl.updateBundleState('refresh')">Restart</a></li>
+				<li><a ng-click="bundleCtrl.updateBundleState('update')">Update</a></li>
+				<li ng-show="bundleCtrl.hasUninstall()"><a
+					ng-click="bundleCtrl.updateBundleState('uninstall')">Uninstall</a></li>
+			</ul>
+
+			<table class="table table-hover fixed">
+				<caption>Bundle Properties</caption>
+				<thead>
+					<tr>
+						<th width="100px">Property</th>
+						<th>Value</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td>Name</td>
+						<td>{{bundleCtrl.selected.name}}</td>
+					</tr>
+					<tr>
+						<td>ID</td>
+						<td>{{bundleCtrl.selected.id}}</td>
+					</tr>
+					<tr class="{{bundleCtrl.selectedState}}">
+						<td>State</td>
+						<td>{{bundleCtrl.selected.state}}</td>
+					</tr>
+
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+
+</div>

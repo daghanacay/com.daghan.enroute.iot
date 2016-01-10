@@ -1,14 +1,16 @@
 package com.daghan.resource.web.rest.dto;
 
+import java.util.List;
 import java.util.Map.Entry;
 
 public class DeviceConfiguration {
 	// to be used by Osgi Rest as DTO the fields of the class should be public
-	public Long key;
-	public String factoryPid;
-	public DeviceConfiguration(Long key, String factoryPid) {
-		this.key = key;
-		this.factoryPid =factoryPid;
+	public String pidString;
+	public List<String> childPids;
+
+	public DeviceConfiguration(String pidString, List<String> childPids) {
+		this.pidString = pidString;
+		this.childPids = childPids;
 	}
 
 }

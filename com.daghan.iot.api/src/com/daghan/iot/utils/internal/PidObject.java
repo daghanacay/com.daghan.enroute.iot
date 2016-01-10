@@ -54,6 +54,15 @@ public class PidObject {
 	}
 
 	/**
+	 * remove child PID for this factory PID
+	 * 
+	 * @param servicePID
+	 */
+	public void removeChildPid(String servicePID) {
+		childPids.remove(servicePID);
+	}
+
+	/**
 	 * The names of all the child PID objects created from using this factory
 	 * PID as an unmodifiable list. See {@link #addChildPid(String)} if you need
 	 * to add child
@@ -62,5 +71,10 @@ public class PidObject {
 	 */
 	public List<String> getChildPids() {
 		return Collections.unmodifiableList(childPids);
+	}
+
+	@Override
+	public String toString() {
+		return "PidObject [pidStr=" + pidStr + ", childPids=" + childPids + "]";
 	}
 }

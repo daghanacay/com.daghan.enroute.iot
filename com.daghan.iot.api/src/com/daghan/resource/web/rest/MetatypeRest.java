@@ -8,6 +8,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.daghan.iot.utils.internal.DeviceTracker;
+import com.daghan.iot.utils.internal.PidObject;
 import com.daghan.resource.web.rest.dto.DeviceConfiguration;
 
 import osgi.enroute.rest.api.REST;
@@ -16,14 +17,11 @@ import osgi.enroute.rest.api.REST;
 public class MetatypeRest implements REST {
 	@Reference
 	private DeviceTracker deviceTracker;
-	
+
 	public List<DeviceConfiguration> getConfigurations() {
 		List<DeviceConfiguration> returnVal = new ArrayList<>();
-		//returnVal.add(new DeviceConfiguration(12L, "daghan.deli"));
-		for (Entry<Long, String[]> tempEntry : deviceTracker.getDeviceSummary().entrySet()) {
-			for (String factoryPid : tempEntry.getValue()) {
-				returnVal.add(new DeviceConfiguration(tempEntry.getKey(), factoryPid));
-			}
+		for (PidObject tempEntry : deviceTracker.getDeviceSummary()) {
+			returnVal.add(new DeviceConfiguration(tempEntry.getPidStr(), tempEntry.getChildPids()));
 		}
 		return returnVal;
 	}

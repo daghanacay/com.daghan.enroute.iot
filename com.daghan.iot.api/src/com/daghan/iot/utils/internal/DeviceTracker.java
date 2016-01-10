@@ -46,6 +46,8 @@ public class DeviceTracker {
 	public Map<Long, String[]> getDeviceSummary() {
 		return bundleMap;
 	}
+	
+	
 
 	// Internal tracker implementation
 	private class BundleTrackerImpl extends BundleTracker<Long> {

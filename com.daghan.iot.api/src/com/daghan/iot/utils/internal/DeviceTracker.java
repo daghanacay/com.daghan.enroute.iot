@@ -2,7 +2,6 @@ package com.daghan.iot.utils.internal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,8 +15,8 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.metatype.MetaTypeInformation;
 import org.osgi.service.metatype.MetaTypeService;
 import org.osgi.util.tracker.BundleTracker;
@@ -34,6 +33,7 @@ import com.daghan.iot.core.api.IoTConstants;
  */
 @Component(service = DeviceTracker.class)
 public class DeviceTracker {
+
 	@Reference
 	private MetaTypeService metatypeService;
 	//
@@ -67,7 +67,7 @@ public class DeviceTracker {
 	 * 
 	 * cardinality = ReferenceCardinality.MULTIPLE :Because we want multiple
 	 * reference but if there is none than the tracker buyndle should not stop,
-	 * e.g. not mandotory
+	 * e.g. not mandatory
 	 * 
 	 * policy = ReferencePolicy.DYNAMIC : Because we want to be notified for
 	 * each service entered to the system
@@ -77,20 +77,27 @@ public class DeviceTracker {
 	@Reference(service = Device.class, unbind = "unbindDeviceService", cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void bindDeviceService(Map properties) {
 		String servicePID = (String) properties.get(Constants.SERVICE_PID);
-		String factoryPID = (String) properties.get(IoTConstants.SERVICE_FACTORY_PID);
-		Long bundleId = (Long) properties.get(Constants.SERVICE_BUNDLEID);
-		bundleMap.get(bundleId).stream().filter(a -> a.getPidStr().equals(factoryPID)).findFirst().get()
-				.addChildPid(servicePID);
-		System.out.println(bundleMap);
+		getFactoryPid(properties).addChildPid(servicePID);
 	}
 
 	public void unbindDeviceService(Map properties) {
 		String servicePID = (String) properties.get(Constants.SERVICE_PID);
+		getFactoryPid(properties).removeChildPid(servicePID);
+
+	}
+
+	/**
+	 * Gets the factory pid corresponding to the service based on the service
+	 * properties
+	 * 
+	 * @param properties
+	 * @return
+	 */
+	private PidObject getFactoryPid(Map properties) {
+		
 		String factoryPID = (String) properties.get(IoTConstants.SERVICE_FACTORY_PID);
 		Long bundleId = (Long) properties.get(Constants.SERVICE_BUNDLEID);
-		bundleMap.get(bundleId).stream().filter(a -> a.getPidStr().equals(factoryPID)).findFirst().get()
-				.removeChildPid(servicePID);
-
+		return bundleMap.get(bundleId).stream().filter(a -> a.getPidStr().equals(factoryPID)).findFirst().get();
 	}
 
 	// Internal tracker implementation

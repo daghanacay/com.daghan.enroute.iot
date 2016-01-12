@@ -1,17 +1,21 @@
 <div ng-controller="ConfigController as cfgCtrl">
 
 	<div class="row">
-		<!-- Left column -->
-		<div class="col-sm-12">
-			<caption>Configurations</caption>
-			<div class="col-sm-12">
-				<div>
-					<ul class="nav nav-pills"
-						ng-repeat="config in cfgCtrl.configs">
-						<li ng-class="{active: cfgCtrl.selectedConfig == config}"><a
-							ng-click="cfgCtrl.selectedConfig = config">{{config.pidString}}</a></li>
-					</ul>
-				</div>
+		<caption>Configurations</caption>
+		<div ng-repeat="config in cfgCtrl.configs">
+			<!-- Left column -->
+			<div class="col-sm-11">
+
+				<ul class="nav nav-pills nav-justified">
+					<li ng-class="{active: cfgCtrl.selectedConfig == config}"><a
+						ng-click="cfgCtrl.selectConfig(config)">{{config.pidString}} {{config.childPids.length}}</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-1">
+				<button type="button" class="btn btn-default pull-right"
+					ng-click="cfgCtrl.createChildForm(config)">
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
 			</div>
 		</div>
 		<div class="col-sm-12">
@@ -29,7 +33,14 @@
 					</tr>
 				</tbody>
 			</table>
-
+			<!-- New config form -->
+			<div ng-show="cfgCtrl.showTheForm">
+				<label>Title {{cfgCtrl.childForm.title}}</label>
+				<p />
+				<label>Enter name: <input type="text"
+					ng-model="cfgCtrl.childForm.description" />
+			</div>
 		</div>
+
 	</div>
 </div>

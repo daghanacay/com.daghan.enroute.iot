@@ -8,39 +8,56 @@
 
 				<ul class="nav nav-pills nav-justified">
 					<li ng-class="{active: cfgCtrl.selectedConfig == config}"><a
-						ng-click="cfgCtrl.selectConfig(config)">{{config.pidString}} {{config.childPids.length}}</a></li>
+						ng-click="cfgCtrl.selectConfig(config)">{{config.pidString}}<span
+							class="badge pull-right">{{config.childPids.length}}</span></a></li>
 				</ul>
 			</div>
 			<div class="col-sm-1">
 				<button type="button" class="btn btn-default pull-right"
-					ng-click="cfgCtrl.createChildForm(config)">
+					ng-click="cfgCtrl.newChildForm(config)">
 					<span class="glyphicon glyphicon-plus"></span>
 				</button>
 			</div>
 		</div>
-		<div class="col-sm-12">
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
 			<table class="table table-hover fixed">
 				<thead>
 					<tr>
-						<th width="100px">Key</th>
-						<th>Name</th>
+						<th>Device Instances</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="childConfig in cfgCtrl.selectedConfig.childPids">
-						<td>{{$index+1}}</td>
-						<td>{{childConfig}}</td>
+						<td ng-click="cfgCtrl.updateChildForm(config)">{{childConfig}}</td>
 					</tr>
 				</tbody>
 			</table>
-			<!-- New config form -->
+		</div>
+		<div class="col-sm-8">
+			<!-- Device config form -->
 			<div ng-show="cfgCtrl.showTheForm">
-				<label>Title {{cfgCtrl.childForm.title}}</label>
+				Title {{cfgCtrl.childForm.title}}
 				<p />
-				<label>Enter name: <input type="text"
-					ng-model="cfgCtrl.childForm.description" />
+				Description {{cfgCtrl.childForm.description}}
+				<div ng-repeat="property in cfgCtrl.childForm.properties">
+					<!-- String Property -->
+					<div ng-show="property.type == 1">
+						<input type="text" name="{{property.name}}"
+							ng-model="property.value" ng-required="{{!property.optional}}">
+					</div>
+					<!-- Input value -->
+					<div ng-show="property.type != 1">
+						{{property.name}} <select name="singleSelect" id="singleSelect"
+							ng-model="property.value"
+							ng-options="o as o for o in property.type.labels"
+							ng-required="{{!property.optional}}">
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
-
 	</div>
+
 </div>

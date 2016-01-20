@@ -17,8 +17,10 @@ function($http, $filter) {
     this.newChildForm = function(config) {
 	$http({
 	    method : 'GET',
-	    url : '/system/console/configMgr/'+config.pidString,
-	    params:{'post':'true'}
+	    url : '/system/console/configMgr/' + config.pidString,
+	    params : {
+		'post' : 'true'
+	    }
 	}).then(function successCallback(response) {
 	    vm.childForm = response.data;
 	}, function errorCallback(response) {
@@ -29,16 +31,43 @@ function($http, $filter) {
 	});
 	this.showTheForm = true;
 	this.selectedConfig = config;
+	this.childSelected = false;
     };
 
     // Create an update form for existing child
-    this.updateChildForm = function(config) {
-	// TODO
+    this.updateChildForm = function(childConfigStr) {
+	$http({
+	    method : 'GET',
+	    url : '/system/console/configMgr/' + childConfigStr,
+	    params : {
+		'post' : 'true'
+	    }
+	}).then(function successCallback(response) {
+	    vm.childForm = response.data;
+	}, function errorCallback(response) {
+	    this.alerts.push({
+		type : 'failure',
+		msg : response
+	    });
+	});
 	this.showTheForm = true;
-	this.selectedConfig = config;
+	this.selectedChildConfig = childConfigStr;
+	this.childSelected = true;
+    };
+    
+    this.addConfig = function(){
+	//TODO
+    };
+    
+    this.updateConfig = function(){
+	//TODO
     };
 
-    // Get the bundles
+    this.removeConfig = function(){
+	//TODO
+    };
+    
+    // Get the configurations
     $http({
 	method : 'GET',
 	url : '/rest/configurations'

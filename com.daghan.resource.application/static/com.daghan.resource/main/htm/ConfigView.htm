@@ -30,7 +30,7 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="childConfig in cfgCtrl.selectedConfig.childPids">
-						<td ng-click="cfgCtrl.updateChildForm(config)">{{childConfig}}</td>
+						<td ng-click="cfgCtrl.updateChildForm(childConfig)">{{childConfig}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -56,6 +56,11 @@
 						</select>
 					</div>
 				</div>
+				<ul class="nav nav-pills pull-right">
+					<li ng-show="cfgCtrl.childSelected"><a ng-click="cfgCtrl.updateConfig()">Update</a></li>
+					<li ng-show="cfgCtrl.childSelected"><a ng-click="cfgCtrl.removeConfig()">Remove</a></li>
+					<li ng-show="!cfgCtrl.childSelected"><a ng-click="cfgCtrl.addConfig()">Add</a></li>
+				</ul>
 			</div>
 		</div>
 	</div>

@@ -38,9 +38,9 @@
 		<div class="col-sm-8">
 			<!-- Device config form -->
 			<div ng-show="cfgCtrl.showTheForm">
-				Title {{cfgCtrl.childForm.title}}
+				<b>Title:</b> {{cfgCtrl.childForm.title}}
 				<p />
-				Description {{cfgCtrl.childForm.description}}
+				<b>Description:</b> {{cfgCtrl.childForm.description}}
 				<div ng-repeat="property in cfgCtrl.childForm.properties">
 					<!-- String Property -->
 					<div ng-show="property.type == 1">

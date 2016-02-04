@@ -6,21 +6,25 @@ configModule
 		[
 			'$http',
 			'$filter',
-
 			function($http, $filter) {
+			    // Init
 			    var vm = this;
 			    this.configs = [];
 			    this.selectedConfig = null;
 			    this.childFrom = null;
 			    this.showTheForm = false;
+			    getAllConfigs();
+			    
+
+			    // functions
 			    this.selectConfig = function(config) {
-				this.selectedConfig = config;
-				this.showTheForm = false;
+					this.selectedConfig = config;
+					this.showTheForm = false;
 			    };
 
 			    // Create a child form for a new configuration
 			    this.newChildForm = function(config) {
-				$http(
+					$http(
 					{
 					    method : 'GET',
 					    url : '/system/console/configMgr/'
@@ -44,7 +48,7 @@ configModule
 
 			    // Create an update form for existing child
 			    this.updateChildForm = function(childConfigStr) {
-				$http(
+					$http(
 					{
 					    method : 'GET',
 					    url : '/system/console/configMgr/'
@@ -67,36 +71,35 @@ configModule
 			    };
 
 			    this.addConfig = function() {
-				$http(
+					$http(
 					{
 					    method : 'POST',
 					    url : '/system/console/configMgr/[Temporary PID replaced by real PID upon save]',
 					    headers : {
 						'Content-Type' : 'application/x-www-form-urlencoded'
 					    },
-					    transformRequest : function(obj) {
+					    transformRequest : function(childForm) {
 						var str = [];
-						for ( var p in obj)
+						var propList = [];
+						str.push("apply=true");
+						str.push("factoryPid="+encodeURIComponent(childForm.pid));
+						str.push("action=ajaxConfigManager");
+						for ( var p in childForm.properties){
 						    str
 							    .push(encodeURIComponent(p)
 								    + "="
-								    + encodeURIComponent(obj[p]));
+								    + encodeURIComponent(childForm.properties[p].value));
+							propList.push(encodeURIComponent(p));
+						}
+						str.push("propertylist="+propList.join(","));
 						return str.join("&");
 					    },
-					    data : {
-						apply:true,
-						factoryPid:'com.company1.device.provider.ReaderDeviceImplementation',
-						action:'ajaxConfigManager',
-						getName:'myReaderTest',
-						getPrependString:'myReader:TESTR',
-						propertylist:'getName,getPrependString'
-					    }
-
+					    data : vm.childForm
 					})
 					.then(
 						function successCallback(
 							response) {
-						   //TODO update the list
+						   getAllConfigs();
 						},
 						function errorCallback(response) {
 						    this.alerts.push({
@@ -115,17 +118,19 @@ configModule
 			    };
 
 			    // Get the configurations
-			    $http({
-				method : 'GET',
-				url : '/rest/configurations'
-			    }).then(function successCallback(response) {
-				vm.configs = response.data;
-				vm.selectConfig(vm.configs[0]);
-			    }, function errorCallback(response) {
-				this.alerts.push({
-				    type : 'failure',
-				    msg : response
-				});
-			    });
+			    function getAllConfigs(){
+			    	$http({
+						method : 'GET',
+						url : '/rest/configurations'
+			    	}).then(function successCallback(response) {
+						vm.configs = response.data;
+						vm.selectConfig(vm.configs[0]);
+			    	}, function errorCallback(response) {
+						this.alerts.push({
+				    		type : 'failure',
+				    		msg : response
+						});
+			    	});
+			    };
 
 			} ]);

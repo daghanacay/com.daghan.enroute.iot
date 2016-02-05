@@ -114,7 +114,21 @@ configModule
 			    };
 
 			    this.removeConfig = function() {
-				// TODO
+				$http({
+						method : 'POST',
+						url : '/system/console/configMgr/' + vm.childForm.pid,
+						params : {
+							"apply":1,
+							"delete":1
+							}
+			    	}).then(function successCallback(response) {
+						getAllConfigs();
+			    	}, function errorCallback(response) {
+						this.alerts.push({
+				    		type : 'failure',
+				    		msg : response
+						});
+			    	});
 			    };
 
 			    // Get the configurations

@@ -2,6 +2,10 @@
 	<div class="row">
 		<!-- Left column -->
 		<div class="col-sm-5">
+			<input type="file" id="files" fileread="bundleCtrl.uploadme" accept="jar|war" class="hidden"/>
+			<label for="files">Select file</label>
+			<button type="button" class="btn btn-primary" ng-click="bundleCtrl.uploadBundle()">Install</button>
+			
 			<div>
 				<ul class="nav nav-pills" ng-repeat="bundle in bundleCtrl.resources">
 					<li ng-class="{active: bundleCtrl.isSelected(bundle)}"><a

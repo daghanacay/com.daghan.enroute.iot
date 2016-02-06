@@ -1,5 +1,22 @@
 var bundleModule = angular.module('bundleModule', []);
 
+bundleModule.directive("fileread", [function () {
+    return {
+        scope: {
+            fileread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                scope.$apply(function () {
+                    scope.fileread = changeEvent.target.files[0];
+                    // or all selected files:
+                    // scope.fileread = changeEvent.target.files;
+                });
+            });
+        }
+    }
+}]);
+
 bundleModule
 	.controller(
 		'BundleController',
@@ -11,6 +28,7 @@ bundleModule
 			    this.resources = [];
 			    this.selected = [];
 			    this.selectedState = [];
+				getBundles();
 
 			    this.isSelected = function(bundle) {
 				return bundle === this.selected;
@@ -62,12 +80,8 @@ bundleModule
 					|| this.selected.stateRaw == 32
 			    };
 
-			    this.updateData = function(response) {
-
-			    }
-
 			    // Get the bundles
-			    $http({
+			    function getBundles(){$http({
 				method : 'GET',
 				url : '/system/console/bundles.json'
 			    }).then(
@@ -83,6 +97,7 @@ bundleModule
 					    msg : response
 					});
 				    });
+				};
 			    // update the bundle state
 			    this.updateBundleState = function(action) {
 				$http(
@@ -129,4 +144,18 @@ bundleModule
 						});
 			    };
 
+				// upload bundle
+			    this.uploadBundle = function() {
+					var fd = new FormData();
+    				//Take the first selected file
+    				fd.append("bundlefile", vm.uploadme);
+    				fd.append("action", "install");
+    				fd.append("bundlestart", "start");
+
+				    $http.post("/system/console/bundles", fd, {
+				        withCredentials: true,
+				        headers: {'Content-Type': undefined },
+				        transformRequest: angular.identity
+				    }).success(function(){getBundles();});
+				 } 
 			} ]);

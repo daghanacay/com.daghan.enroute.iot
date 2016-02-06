@@ -110,7 +110,42 @@ configModule
 			    };
 
 			    this.updateConfig = function() {
-				// TODO
+$http(
+					{
+					    method : 'POST',
+					    url : '/system/console/configMgr/'+vm.childForm.pid,
+					    headers : {
+						'Content-Type' : 'application/x-www-form-urlencoded'
+					    },
+					    transformRequest : function(childForm) {
+						var str = [];
+						var propList = [];
+						str.push("apply=true");
+						str.push("factoryPid="+encodeURIComponent(childForm.pid));
+						str.push("action=ajaxConfigManager");
+						for ( var p in childForm.properties){
+						    str
+							    .push(encodeURIComponent(p)
+								    + "="
+								    + encodeURIComponent(childForm.properties[p].value));
+							propList.push(encodeURIComponent(p));
+						}
+						str.push("propertylist="+propList.join(","));
+						return str.join("&");
+					    },
+					    data : vm.childForm
+					})
+					.then(
+						function successCallback(
+							response) {
+						   getAllConfigs();
+						},
+						function errorCallback(response) {
+						    this.alerts.push({
+							type : 'failure',
+							msg : response
+						    });
+						});
 			    };
 
 			    this.removeConfig = function() {

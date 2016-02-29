@@ -15,7 +15,5 @@ public interface Device {
 	 * 
 	 * @return
 	 */
-	default public String getId() {
-		return this.toString();
-	}
+	public String getId();
 }

@@ -14,7 +14,8 @@ Private-Package: \
 	com.intel.bluetooth.obex,\
 	com.daghan.protocol.bluetooth.provider,\
 	com.intel.bluetooth;-split-package:=merge-first,\
-	com.intel.bluetooth.gcf.socket
+	com.intel.bluetooth.gcf.socket,\
+	com.daghan.protocol.bluetooth.command
 	
 -buildpath: \
 	osgi.enroute.base.api;version=1.0,\

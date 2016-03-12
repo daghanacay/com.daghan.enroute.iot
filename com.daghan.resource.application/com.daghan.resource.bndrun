@@ -14,7 +14,7 @@ JPM-Command:					resourc
 	osgi.identity;filter:='(osgi.identity=com.daghan.resource.application)',\
 	osgi.identity;filter:='(osgi.identity=com.company1.device.provider)',\
 	osgi.identity;filter:='(osgi.identity=com.company2.device.provider)',\
-	osgi.identity;filter:='(osgi.identity=com.koolertron.CH_PPYY01_BK.provider)'
+	osgi.identity;filter:='(osgi.identity=com.daghan.protocol.bluetooth.provider)'
 
 -runbundles: \
 	com.company1.device.provider;version=snapshot,\
@@ -22,7 +22,6 @@ JPM-Command:					resourc
 	com.daghan.iot.api;version=snapshot,\
 	com.daghan.protocol.bluetooth.provider;version=snapshot,\
 	com.daghan.resource.application;version=snapshot,\
-	com.koolertron.CH_PPYY01_BK.provider;version=snapshot,\
 	org.apache.felix.configadmin;version='[1.8.6,1.8.7)',\
 	org.apache.felix.http.api;version='[3.0.0,3.0.1)',\
 	org.apache.felix.http.jetty;version='[3.1.0,3.1.1)',\

@@ -46,4 +46,12 @@ you can also delete "myReader" and run the "get <string>" later create another "
 <h2>Installation</h2>
 
 - Install Eclipse Mars -- tested with version 4.5.1
- - Install BndTools plugin into eclipse Mars -- tested with version 3.0.0
+- Install BndTools plugin into eclipse Mars -- tested with version 3.0.0
+
+<h2>Rest end points</h2>
+management portal
+http://localhost:8080/com.daghan.resource/index.html
+
+after a device is created from the configuration page of the management portal.
+
+GET POST PUT http://localhost:8080/device/[deviceId]

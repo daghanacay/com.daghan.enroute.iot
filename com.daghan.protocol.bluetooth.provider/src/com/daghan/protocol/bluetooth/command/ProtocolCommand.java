@@ -133,6 +133,7 @@ public class ProtocolCommand {
 			RemoteDevice btDevice = (RemoteDevice) en.nextElement();
 
 			synchronized (serviceSearchCompletedEvent) {
+				serviceFound.clear();
 				System.out.println(
 						"search services on " + btDevice.getBluetoothAddress() + " " + btDevice.getFriendlyName(false));
 

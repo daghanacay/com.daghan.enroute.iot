@@ -14,8 +14,7 @@ Export-Package: \
 	com.daghan.iot.utils
 
 
--buildpath: \
-	osgi.enroute.base.api;version=1.0
+-buildpath: osgi.enroute.base.api;version=1.0
 
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12

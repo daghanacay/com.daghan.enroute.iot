@@ -1,3 +1,9 @@
 {
- "revisionRefs":[]
+ "revisionRefs":[{
+  "artifactId":"org.apache.felix.http.bundle","baseline":"3.0.0","bsn":"org.apache.felix.http.bundle","created":1422534995032,"description":"Apache Felix is an OSGi implementation.","groupId":"org.apache.felix","md5":"9AFC995FCBBE0EBCF8B734C4CC1EF0F2","name":"Apache Felix Http Bundle","phase":"MASTER","revision":"F39A3F21859C9D57C5DA7B0A032C6D50311218B9","size":2302851,"urls":["http://repo1.maven.org/maven2/org/apache/felix/org.apache.felix.http.bundle/3.0.0/org.apache.felix.http.bundle-3.0.0.jar"],"version":"3.0.0"
+ },{
+  "artifactId":"servlet","baseline":"1.0.0","bsn":"org.eclipse.equinox.http.servlet","created":1196147751000,"groupId":"org.eclipse.equinox.http","md5":"6B246890D6969ADB1AC8464484B2DE81","name":"Http Services Servlet","phase":"MASTER","qualifier":"v20070606","revision":"3F703F9D8F79E503A9B295B0FE636BEC62234B3F","size":34270,"urls":["http://repo1.maven.org/maven2/org/eclipse/equinox/http/servlet/1.0.0-v20070606/servlet-1.0.0-v20070606.jar"],"version":"1.0.0-v20070606"
+ },{
+  "artifactId":"org.osgi.service.http.whiteboard","baseline":"1.0.0","bsn":"org.osgi.service.http.whiteboard","created":1432153457978,"description":"OSGi Companion Code for org.osgi.service.http.whiteboard Version 1.0.0.","groupId":"org.osgi","md5":"4F74F3E00347ABE061F259E664EB5096","name":"org.osgi:org.osgi.service.http.whiteboard","phase":"MASTER","revision":"5C9F980691CC691EBF1B77BBDF90F8982B7C545B","size":56979,"urls":["http://repo1.maven.org/maven2/org/osgi/org.osgi.service.http.whiteboard/1.0.0/org.osgi.service.http.whiteboard-1.0.0.jar"],"version":"1.0.0"
+ }]
 }

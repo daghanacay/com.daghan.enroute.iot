@@ -105,24 +105,25 @@ public class DiscoBallApplication {
 
 		private void updateColor(int colorScheme) throws IllegalAccessException, IllegalArgumentException,
 				InvocationTargetException, NoSuchMethodException, InterruptedException {
-			switch (colorScheme) {
-			case 0:
-				rm.activateResource(config.redColorResource(), "HIGH", String.class, MethodTypeEnum.POST);
-				rm.activateResource(config.greenColorResource(), "LOW", String.class, MethodTypeEnum.POST);
-				rm.activateResource(config.blueColorResource(), "LOW", String.class, MethodTypeEnum.POST);
-				break;
-			case 1:
-				rm.activateResource(config.redColorResource(), "LOW", String.class, MethodTypeEnum.POST);
-				rm.activateResource(config.greenColorResource(), "HIGH", String.class, MethodTypeEnum.POST);
-				rm.activateResource(config.blueColorResource(), "LOW", String.class, MethodTypeEnum.POST);
-				break;
-			case 2:
-				rm.activateResource(config.redColorResource(), "LOW", String.class, MethodTypeEnum.POST);
-				rm.activateResource(config.greenColorResource(), "LOW", String.class, MethodTypeEnum.POST);
-				rm.activateResource(config.blueColorResource(), "HIGH", String.class, MethodTypeEnum.POST);
-				break;
-			}
-			Thread.sleep(config.frequency());
+			return;
+//			switch (colorScheme) {
+//			case 0:
+//				rm.activateResource(config.redColorResource(), "HIGH", String.class, MethodTypeEnum.POST);
+//				rm.activateResource(config.greenColorResource(), "LOW", String.class, MethodTypeEnum.POST);
+//				rm.activateResource(config.blueColorResource(), "LOW", String.class, MethodTypeEnum.POST);
+//				break;
+//			case 1:
+//				rm.activateResource(config.redColorResource(), "LOW", String.class, MethodTypeEnum.POST);
+//				rm.activateResource(config.greenColorResource(), "HIGH", String.class, MethodTypeEnum.POST);
+//				rm.activateResource(config.blueColorResource(), "LOW", String.class, MethodTypeEnum.POST);
+//				break;
+//			case 2:
+//				rm.activateResource(config.redColorResource(), "LOW", String.class, MethodTypeEnum.POST);
+//				rm.activateResource(config.greenColorResource(), "LOW", String.class, MethodTypeEnum.POST);
+//				rm.activateResource(config.blueColorResource(), "HIGH", String.class, MethodTypeEnum.POST);
+//				break;
+//			}
+//			Thread.sleep(config.frequency());
 		}
 	}
 }

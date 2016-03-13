@@ -1,7 +1,7 @@
 #
 #  BUNDLE 
 #
-
+Bundle-Category: IoT
 
 Bundle-Version:					1.0.0.${tstamp}
 Bundle-Description: 				\
@@ -24,8 +24,7 @@ Private-Package:  \
 -includeresource: {readme.md}
 
 
--runrequires:  \
-	osgi.identity;filter:='(osgi.identity=com.koolertron.CH_PPYY01_BK.provider)'
 	
--runbundles: \
-	${error;Resolve first}
+-runbundles: org.apache.felix.log;version='[1.0.1,1.0.2)'
+-runee: JavaSE-1.8
+-runfw: org.eclipse.osgi

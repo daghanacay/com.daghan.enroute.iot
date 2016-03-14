@@ -72,4 +72,3 @@ sudo service bluetooth start    # start the bluetooth service if required
 
 
 
-

@@ -62,6 +62,7 @@ bluecovelib/bluecove-gpl-2.1.0$ ant all
 Finally copy your jar to desktop computer
 scp  pi@10.1.1.9:/home/pi/bluecovelib/bluecove-gpl-2.1.0/target/bluecove-gpl-2.1.0.jar ~
 
+<<<<<<< HEAD
 ### Tool libraries
 
 sudo apt-get install bluetooth bluez-utils blueman
@@ -70,6 +71,8 @@ sudo apt-get install bluetooth bluez-utils blueman
 hcitool scan                    # show any devices in range of the dongle
 sudo service bluetooth start    # start the bluetooth service if required
 
+=======
+>>>>>>> branch 'master' of git@github.com:daghanacay/com.daghan.enroute.iot.git
 
 
 

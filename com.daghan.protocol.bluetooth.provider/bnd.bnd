@@ -29,14 +29,14 @@ Private-Package: \
 
 Bundle-NativeCode: libbluecove_armv5tel.so;osname=Linux,\
 	libbluecove_x64.so;osname=Linux,\
-	libbluecove.so;osname=Linux
+	libbluecove.so;osname=Linux,\
+	libbluecove_arm.so;osname=Linux
 
 -includeresource: {readme.md},\
 	lib/libbluecove_armv5tel.so,\
 	lib/libbluecove_x64.so,\
-	lib/libbluecove.so
-
-
+	lib/libbluecove.so,\
+	lib/libbluecove_arm.so
 
 -runrequires:  \
 	osgi.identity;filter:='(osgi.identity=com.daghan.bluetooth.protocol.provider)'

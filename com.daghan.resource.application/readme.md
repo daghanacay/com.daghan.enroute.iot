@@ -30,7 +30,7 @@ right click on debug.bndrun and select debug as -> Bnd OSGi run launcher
 1- Add our ssh key to raspberry so you dont need to write the password all the time
 http://www.howtogeek.com/168147/add-public-ssh-key-to-remote-server-in-a-single-command/
 2- Install jpm (instructions taken from http://enroute.osgi.org/tutorial_iot/100-prerequisites.html)
-$ curl https://bndtools.ci.cloudbees.com/job/bnd.master/719/artifact/dist/bundles/biz.aQute.jpm.run/biz.aQute.jpm.run-3.0.0.jar &gt;jpm.jar
+$ curl https://bndtools.ci.cloudbees.com/job/bnd.master/719/artifact/dist/bundles/biz.aQute.jpm.run/biz.aQute.jpm.run-3.0.0.jar>jpm.jar
 $ sudo java -jar jpm.jar init
 $ jpm version
 

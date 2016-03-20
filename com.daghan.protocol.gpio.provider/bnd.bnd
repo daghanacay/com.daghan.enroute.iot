@@ -13,8 +13,9 @@ Bundle-Description: 				\
 	\
 	${warning;Please update this Bundle-Description in com.daghan.gpio.protocol.provider/bnd.bnd}
 
-Private-Package:  \
-	com.daghan.protocol.gpio.provider
+Private-Package: \
+	com.daghan.protocol.gpio.provider,\
+	com.daghan.protocol.gpio.provider.command
 	
 -buildpath: \
 	osgi.enroute.base.api;version=1.0,\

@@ -7,6 +7,7 @@ import java.net.URLConnection;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.Designate;
@@ -39,13 +40,13 @@ import com.pi4j.io.gpio.RaspiPin;
 	PinNumberEnum pinNumber() default PinNumberEnum.pin8;
 
 	@AttributeDefinition(name = "Pin type", description = "Defines pin as input or output pin.")
-	InputOutputEnum type() default InputOutputEnum.output;
+	InputOutputEnum pinType() default InputOutputEnum.output;
 
 	@AttributeDefinition(name = "Pin Level", description = "Defines output default output for output pins and pull resistence for input pins.")
 	PinLevelEnum pinLevel() default PinLevelEnum.high;
 }
 
-@Component
+@Component(name="com.company3.device.gpio.provider.GpioDeviceImpl", configurationPolicy = ConfigurationPolicy.REQUIRE)
 @Designate(ocd = DigitalPinConfiguration.class, factory = true)
 public class GpioDeviceImpl implements Device {
 	private DigitalPinConfiguration config;
@@ -125,7 +126,7 @@ public class GpioDeviceImpl implements Device {
 		Pin pin = (Pin) findPin(config.pinNumber().getVal());
 
 		unprovision(pin);
-		switch (config.type()) { // Get request sets the input pin
+		switch (config.pinType()) { // Get request sets the input pin
 		case input:
 			GpioPinDigitalInput digitalIn = this.gpioContoller.provisionDigitalInputPin(pin);
 			switch (config.pinLevel()) {

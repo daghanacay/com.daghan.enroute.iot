@@ -1,2 +1,34 @@
 [
+  {
+     "service.factoryPid":"com.company3.device.gpio.provider.GpioDeviceImpl",
+     "service.pid":"redOutput",
+     "name":"redLed",
+     "pinNumber":"pin23",
+     "pinType":"output",
+     "pinLevel":"low"
+  },
+  {
+     "service.factoryPid":"com.company3.device.gpio.provider.GpioDeviceImpl",
+     "service.pid":"greenOutput",
+     "name":"greenLed",
+     "pinNumber":"pin24",
+     "pinType":"output",
+     "pinLevel":"low"
+  },
+  {
+     "service.factoryPid":"com.company3.device.gpio.provider.GpioDeviceImpl",
+     "service.pid":"blueOutput",
+     "name":"blueLed",
+     "pinNumber":"pin25",
+     "pinType":"output",
+     "pinLevel":"low"
+  },
+  {
+     "service.factoryPid":"com.company3.device.gpio.provider.GpioDeviceImpl",
+     "service.pid":"lightIntensityInput",
+     "name":"intensityPin",
+     "pinNumber":"pin29",
+     "pinType":"input",
+     "pinLevel":"low"
+  }
 ]

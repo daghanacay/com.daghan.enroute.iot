@@ -17,7 +17,7 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import com.daghan.iot.core.api.Device;
 import com.daghan.iot.core.api.MethodTypeEnum.PostMethod;
 
-@ObjectClassDefinition(name = "Digital Pin Configuration")
+@ObjectClassDefinition(name = "SPP Bluetooth Configuration")
 @interface CH_PPYY01_BKConfiguration {
 	@AttributeDefinition(name = "Device Name", description = "Name of this device", required = true)
 	String name() default "my_CH_PPYY01_BK";

@@ -23,7 +23,42 @@ Go back to your eclipse and please change the -runremote configuration in debugR
 right click on debugRemote.bndrun and select debug as -> BND native launcher
 
 ### Starting on the local machine
-right click on debug.bndrun and select debug as -> Bnd OSGi run launcher
+right click on debug.bndrun and select debug as -> Bnd OSGi run launcher. and 
+
+
+find the management page at 
+
+http://10.1.1.9:8080/com.daghan.resource/index.html#/configurations
+
+web console at
+http://10.1.1.9:8080/system/console/services
+
+you can turn on/off an led using 
+POST  http://10.1.1.9:8080/device/blueLed with body HIGH or LOW
+POST  http://10.1.1.9:8080/device/redLed with body HIGH or LOW
+POST  http://10.1.1.9:8080/device/greenLed with body HIGH or LOW
+
+you can read the values on the pins 
+GET http://10.1.1.9:8080/device/intensityPin
+GET http://10.1.1.9:8080/device/blueLed
+GET http://10.1.1.9:8080/device/redLed
+GET http://10.1.1.9:8080/device/greenLed
+
+See configuration for details
+
+## Configuration
+
+Led configuration is handled in configuration/configuration.json see DigitalPinConfiguration interface 
+
+{
+     "service.factoryPid":"com.company3.device.gpio.provider.GpioDeviceImpl",
+     "service.pid":any unique pid e.g. blueLedPid,
+     "name": any unique name e.g. blueLed,
+     "pinNumber":number between 1-29 with prefix "pin" e.g. pin23 see http://pi4j.com/pins/model-b-plus.html,
+     "pinType": input or output pin use one of [input,output] e.g. input,
+     "pinLevel":pin level to be set on idle one of [low,high] e.g. low
+  },
+
 
 ## References
 

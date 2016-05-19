@@ -2,6 +2,7 @@
 
 <h2>Summary</h2>
 
+
 This repo contains the configuration driven development for IoT systems. Goals are
 
 - Device abstraction layer
@@ -55,3 +56,4 @@ http://localhost:8080/com.daghan.resource/index.html
 after a device is created from the configuration page of the management portal.
 
 GET POST PUT http://localhost:8080/device/[deviceId]
+Update

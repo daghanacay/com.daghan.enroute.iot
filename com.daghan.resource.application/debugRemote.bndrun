@@ -7,7 +7,7 @@
 -runremote: \
 	pi; \
 		jdb=1044; \
-		host=10.0.0.26; \
+		host=192.168.1.113; \
 		shell=-1
 
 -include: ~com.daghan.resource.bndrun

@@ -1,3 +1,16 @@
 #
 # This file is left open for you to define your macros
 #
+-plugin.5.Maven = \
+	        aQute.bnd.repository.maven.provider.MavenBndRepository; \
+				releaseUrl			=	https://repo.maven.apache.org/maven2/; \
+				name				=	Maven
+				
+-plugin.7.LocalMaven:\
+    aQute.bnd.repository.maven.provider.MavenBndRepository; \
+		name				=	LocalMaven
+		
+-buildrepo: LocalMaven
+-pom: \
+	groupid	=	isgi.enroute.examples.prime,\
+	version =	${versionmask;===;${@version}}-SNAPSHOT

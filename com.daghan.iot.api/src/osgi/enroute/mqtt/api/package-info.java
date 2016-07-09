@@ -13,17 +13,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package osgi.enroute.examples.led.controller.mqtt.api;
-
-/**
- * Message Processor for subscription messages
- */
-@FunctionalInterface
-public interface MessageListener {
-
-	/**
-	 * Processes Received Message
-	 */
-	public void processMessage(final String message);
-
-}
+@org.osgi.annotation.versioning.Version("1.0.0")
+package osgi.enroute.mqtt.api;

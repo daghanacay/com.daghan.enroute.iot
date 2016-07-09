@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package osgi.enroute.examples.led.controller.mqtt.configurable;
+package osgi.enroute.mqtt.configurable;
 
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
@@ -27,13 +27,13 @@ public @interface MqttConfiguration {
 	/**
 	 * MQTT broker Server Address
 	 */
-	@AttributeDefinition(name = "MQTT Server", description = "MQTT Server Address")
+	@AttributeDefinition(name = "MQTT Server", description = "MQTT Server Address", required = true)
 	public String host() default "iot.eclipse.org";
 
 	/**
 	 * MQTT Broker Port
 	 */
-	@AttributeDefinition(name = "MQTT Port", description = "MQTT Connection Port")
+	@AttributeDefinition(name = "MQTT Port", description = "MQTT Connection Port", required = true)
 	public int port() default 1883;
 
 	/**

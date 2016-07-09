@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package osgi.enroute.examples.led.controller.mqtt.provider;
+package osgi.enroute.mqtt.provider;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.osgi.service.component.annotations.ReferenceCardinality.OPTIONAL;
 import static org.osgi.service.log.LogService.LOG_DEBUG;
 import static org.osgi.service.log.LogService.LOG_ERROR;
 import static org.osgi.service.log.LogService.LOG_INFO;
-import static osgi.enroute.examples.led.controller.mqtt.util.Utils.dictionaryToMap;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.fusesource.hawtbuf.Buffer;
 import org.fusesource.hawtbuf.UTF8Buffer;
@@ -42,10 +38,6 @@ import org.fusesource.mqtt.client.Listener;
 import org.fusesource.mqtt.client.MQTT;
 import org.fusesource.mqtt.client.QoS;
 import org.fusesource.mqtt.client.Topic;
-import org.osgi.service.cm.Configuration;
-import org.osgi.service.cm.ConfigurationAdmin;
-import org.osgi.service.cm.ConfigurationEvent;
-import org.osgi.service.cm.ConfigurationListener;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -53,52 +45,25 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 import org.osgi.service.metatype.annotations.Designate;
 
-import osgi.enroute.examples.led.controller.mqtt.api.IMqttClient;
-import osgi.enroute.examples.led.controller.mqtt.api.MessageListener;
-import osgi.enroute.examples.led.controller.mqtt.configurable.MqttConfiguration;
+import osgi.enroute.mqtt.api.IMqttClient;
+import osgi.enroute.mqtt.api.MessageListener;
+import osgi.enroute.mqtt.configurable.MqttConfiguration;
 
 /**
  * Implementation of {@link IMqttClient}
  */
 @Designate(ocd = MqttConfiguration.class)
-@Component(name = "osgi.enroute.examples.led.controller.mqtt")
-public final class MqttClient implements IMqttClient, ConfigurationListener {
-
+@Component
+public final class MqttClient implements IMqttClient {
 	/**
-	 * MQTT Server
+	 * MQTT Configuration
 	 */
-	private static String host;
-
-	/**
-	 * MQTT Configuration Service PID
-	 */
-	private static final String MQTT_CONF_PID = "osgi.enroute.examples.led.controller.mqtt";
-
-	/**
-	 * MQTT Password
-	 */
-	private static String password;
-
-	/**
-	 * MQTT Port
-	 */
-	private static int port = DEFAULT_MQTT_PORT;
-
-	/**
-	 * MQTT Username
-	 */
-	private static String username;
+	private MqttConfiguration mqttConfiguration;
 
 	/**
 	 * list of listeners
 	 */
 	protected Map<String, MessageListener> channels = null;
-
-	/**
-	 * Configuration Admin Service Reference
-	 */
-	@Reference
-	private volatile ConfigurationAdmin configurationAdmin;
 
 	/**
 	 * Callback connection reference for subscription
@@ -127,30 +92,13 @@ public final class MqttClient implements IMqttClient, ConfigurationListener {
 	private volatile LogService logService;
 
 	/**
-	 * MQTT Configuration
-	 */
-	private Configuration mqttConfiguration;
-
-	/**
 	 * Activation Callback
 	 */
 	@Activate
-	public void activate() throws IOException {
-		this.connectionLock = new ReentrantLock();
-		if (nonNull(this.configurationAdmin)) {
-			this.mqttConfiguration = this.configurationAdmin.getConfiguration(MQTT_CONF_PID);
-		}
+	public void activate(MqttConfiguration conf) throws IOException {
+		this.mqttConfiguration = conf;
 	}
-
-	/** {@inheritDoc}} */
-	@Override
-	public void configurationEvent(final ConfigurationEvent event) {
-		if (MQTT_CONF_PID.equals(event.getPid())) {
-			final Dictionary<String, ?> properties = this.mqttConfiguration.getProperties();
-			this.extractConfiguration(properties);
-		}
-	}
-
+	
 	/** {@inheritDoc} */
 	@Override
 	public boolean connect() {
@@ -159,18 +107,15 @@ public final class MqttClient implements IMqttClient, ConfigurationListener {
 		final MQTT mqtt = new MQTT();
 
 		try {
-			if (isNull(MqttClient.host)) {
-				return false;
-			}
 
-			mqtt.setHost(this.hostToURI(MqttClient.host, String.valueOf(MqttClient.port)));
+			mqtt.setHost(this.hostToURI(mqttConfiguration.host(), String.valueOf(mqttConfiguration.port())));
 			mqtt.setClientId(CLIENT_ID);
 
-			if (nonNull(MqttClient.password)) {
-				mqtt.setPassword(String.valueOf(MqttClient.password));
+			if (nonNull(mqttConfiguration.username())) {
+				mqtt.setPassword(mqttConfiguration.username());
 			}
-			if (nonNull(MqttClient.username)) {
-				mqtt.setUserName(String.valueOf(MqttClient.username));
+			if (nonNull(mqttConfiguration.userPassword())) {
+				mqtt.setUserName(String.valueOf(mqttConfiguration.userPassword()));
 			}
 
 		} catch (final URISyntaxException e) {
@@ -211,53 +156,6 @@ public final class MqttClient implements IMqttClient, ConfigurationListener {
 		throw new ConnectionException(message);
 	}
 
-	/**
-	 * Extracts Configuration Parameters
-	 */
-	private void extractConfiguration(final Dictionary<String, ?> properties) {
-		final Map<String, ?> map = dictionaryToMap(properties);
-
-		// MQTT Password Check
-		if (map.containsKey("userPassword")) {
-			final Object password = map.get("userPassword");
-			if (nonNull(password)) {
-				if (!isNull(String.valueOf(password)) || (String.valueOf(password).length() == 0)) {
-					MqttClient.password = String.valueOf(password);
-				}
-			}
-		}
-
-		// MQTT Port Check
-		if (map.containsKey("port")) {
-			final Object port = map.get("port");
-			if (nonNull(port)) {
-				if (!isNull(String.valueOf(port)) || (String.valueOf(port).length() == 0)) {
-					MqttClient.port = Integer.valueOf(port.toString());
-				}
-			}
-		}
-
-		// MQTT Username Check
-		if (map.containsKey("username")) {
-			final Object username = map.get("username");
-			if (nonNull(username)) {
-				if (!isNull(String.valueOf(username)) || (String.valueOf(username).length() == 0)) {
-					MqttClient.username = String.valueOf(username);
-				}
-			}
-		}
-
-		// MQTT Host Server Check
-		if (map.containsKey("host")) {
-			final Object host = map.get("host");
-			if (nonNull(host)) {
-				if (!isNull(String.valueOf(host)) || (String.valueOf(host).length() == 0)) {
-					MqttClient.host = String.valueOf(host);
-				}
-			}
-		}
-	}
-
 	/** {@inheritDoc} */
 	@Override
 	public String getClientId() {
@@ -267,7 +165,7 @@ public final class MqttClient implements IMqttClient, ConfigurationListener {
 	/** {@inheritDoc} */
 	@Override
 	public String getHost() {
-		return host;
+		return mqttConfiguration.host();
 	}
 
 	/** {@inheritDoc} */

@@ -7,17 +7,16 @@ Bundle-Version:					1.0.0.${tstamp}
 Bundle-Description: This is used to provide MQTT Communication related service implementation
 
 Private-Package: \
-	osgi.enroute.examples.led.controller.mqtt.provider,\
-	osgi.enroute.examples.led.controller.mqtt.configurable,\
-	osgi.enroute.examples.led.controller.mqtt.util
+	osgi.enroute.mqtt.provider,\
+	osgi.enroute.mqtt.configurable
 	
 -buildpath: \
 	osgi.enroute.base.api;version=1.0,\
-	osgi.enroute.examples.led.controller.mqtt.api;version=latest,\
 	org.fusesource.hawtbuf.hawtbuf,\
 	org.fusesource.hawtdispatch.hawtdispatch,\
 	org.fusesource.hawtdispatch.hawtdispatch-transport,\
-	org.fusesource.mqtt-client.mqtt-client
+	org.fusesource.mqtt-client.mqtt-client,\
+	com.daghan.iot.api;version=latest
 	
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12
@@ -26,12 +25,9 @@ Private-Package: \
 
 -metatype: *
 
--runrequires:  \
-	osgi.identity;filter:='(osgi.identity=osgi.enroute.examples.led.controller.mqtt.provider)'
 	
--runbundles: \
-	${error;Resolve first}
+-runbundles: org.apache.felix.log;version='[1.0.1,1.0.2)'
 	
-Bundle-Name: OSGi Enroute LED Controller MQTT Service Implementation
+Bundle-Name: OSGi Enroute MQTT Service Implementation
 
 Bundle-Vendor: OSGi Alliance

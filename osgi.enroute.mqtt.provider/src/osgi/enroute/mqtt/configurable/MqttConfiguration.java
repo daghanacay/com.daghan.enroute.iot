@@ -28,7 +28,7 @@ public @interface MqttConfiguration {
 	 * MQTT broker Server Address
 	 */
 	@AttributeDefinition(name = "MQTT Server", description = "MQTT Server Address", required = true)
-	public String host() default "iot.eclipse.org";
+	public String host() default "staging.thethingsnetwork.org";
 
 	/**
 	 * MQTT Broker Port
@@ -40,12 +40,12 @@ public @interface MqttConfiguration {
 	 * MQTT Broker Username
 	 */
 	@AttributeDefinition(name = "MQTT Username", description = "MQTT Username")
-	public String username();
+	public String username() default "70B3D57ED0000185";
 
 	/**
 	 * MQTT Broker Password
 	 */
 	@AttributeDefinition(name = "MQTT Password", description = "MQTT Password")
-	public String userPassword();
+	public String userPassword() default "vjGkwZGzSGSkhzMawoXv59f84oGjeYHX0mBbC1c7Yq0=";
 
 }

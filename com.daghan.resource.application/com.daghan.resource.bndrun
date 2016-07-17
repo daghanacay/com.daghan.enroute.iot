@@ -16,12 +16,14 @@ JPM-Command:					resourc
 	osgi.identity;filter:='(osgi.identity=com.company2.device.provider)',\
 	osgi.identity;filter:='(osgi.identity=com.koolertron.CH_PPYY01_BK.provider)',\
 	osgi.identity;filter:='(osgi.identity=com.daghan.protocol.gpio.provider)',\
-	osgi.identity;filter:='(osgi.identity=com.company3.device.gpio.provider)'
+	osgi.identity;filter:='(osgi.identity=com.company3.device.gpio.provider)',\
+	osgi.identity;filter:='(osgi.identity=com.daghan.device.dummylorasensor.provider)'
 
 -runbundles: \
 	com.company1.device.provider;version=snapshot,\
 	com.company2.device.provider;version=snapshot,\
 	com.company3.device.gpio.provider;version=snapshot,\
+	com.daghan.device.dummylorasensor.provider;version=snapshot,\
 	com.daghan.iot.api;version=snapshot,\
 	com.daghan.protocol.bluetooth.provider;version=snapshot,\
 	com.daghan.protocol.gpio.provider;version=snapshot,\

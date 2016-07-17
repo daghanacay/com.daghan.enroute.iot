@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.fusesource.hawtbuf.Buffer;
 import org.fusesource.hawtbuf.UTF8Buffer;
@@ -40,7 +41,9 @@ import org.fusesource.mqtt.client.QoS;
 import org.fusesource.mqtt.client.Topic;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 import org.osgi.service.metatype.annotations.Designate;
@@ -53,7 +56,7 @@ import osgi.enroute.mqtt.configurable.MqttConfiguration;
  * Implementation of {@link IMqttClient}
  */
 @Designate(ocd = MqttConfiguration.class)
-@Component
+@Component(configurationPolicy = ConfigurationPolicy.REQUIRE)
 public final class MqttClient implements IMqttClient {
 	/**
 	 * MQTT Configuration
@@ -96,9 +99,29 @@ public final class MqttClient implements IMqttClient {
 	 */
 	@Activate
 	public void activate(MqttConfiguration conf) throws IOException {
+		this.connectionLock = new ReentrantLock();
 		this.mqttConfiguration = conf;
+		connect();
 	}
-	
+
+	/** {@inheritDoc} */
+	@Deactivate
+	@Override
+	public void disconnect() {
+		try {
+			if (this.connectionLock.tryLock(5, TimeUnit.SECONDS)) {
+				this.safelyDisconnect();
+			}
+		} catch (final Exception e) {
+			this.logService.log(LOG_DEBUG, "Exception while disconnecting");
+		}
+	}
+
+	// @Modified
+	// public void modified(MqttConfiguration conf){
+	// System.out.println("Mqtt modified");
+	// }
+
 	/** {@inheritDoc} */
 	@Override
 	public boolean connect() {
@@ -112,10 +135,10 @@ public final class MqttClient implements IMqttClient {
 			mqtt.setClientId(CLIENT_ID);
 
 			if (nonNull(mqttConfiguration.username())) {
-				mqtt.setPassword(mqttConfiguration.username());
+				mqtt.setPassword(mqttConfiguration.userPassword());
 			}
 			if (nonNull(mqttConfiguration.userPassword())) {
-				mqtt.setUserName(String.valueOf(mqttConfiguration.userPassword()));
+				mqtt.setUserName(String.valueOf(mqttConfiguration.username()));
 			}
 
 		} catch (final URISyntaxException e) {
@@ -130,23 +153,11 @@ public final class MqttClient implements IMqttClient {
 			this.isConnected = false;
 		} catch (final ConnectionException e) {
 			this.isConnected = false;
+			throw e;
 		} finally {
 			this.connectionLock.unlock();
 		}
 		return this.isConnected;
-	}
-
-	/** {@inheritDoc} */
-	@Deactivate
-	@Override
-	public void disconnect() {
-		try {
-			if (this.connectionLock.tryLock(5, TimeUnit.SECONDS)) {
-				this.safelyDisconnect();
-			}
-		} catch (final Exception e) {
-			this.logService.log(LOG_DEBUG, "Exception while disconnecting");
-		}
 	}
 
 	/**
@@ -258,7 +269,7 @@ public final class MqttClient implements IMqttClient {
 			/** {@inheritDoc} */
 			@Override
 			public void onFailure(final Throwable throwable) {
-				MqttClient.this.errorMsg = "Impossible to CONNECT to the MQTT server, terminating";
+				MqttClient.this.errorMsg = "Impossible to CONNECT to the MQTT server, terminating " + throwable.getMessage();
 				MqttClient.this.logService.log(LOG_ERROR, MqttClient.this.errorMsg);
 			}
 

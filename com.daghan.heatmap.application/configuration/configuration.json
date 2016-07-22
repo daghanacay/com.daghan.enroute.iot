@@ -1,0 +1,25 @@
+[
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor1",
+     "name":"sensor1",
+     "subscriptionChannel":"70B3D57ED0000185/devices/0000000001020304/up",
+     "publishChannel":"70B3D57ED0000185/devices/0000000001020304/up"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor2",
+     "name":"sensor2",
+     "subscriptionChannel":"70B3D57ED0000185/devices/0000000002030405/up",
+     "publishChannel":"70B3D57ED0000185/devices/0000000002030405/up"
+  },
+  {
+     "service.factoryPid":"osgi.enroute.mqtt.provider",
+     "service.pid":"mqtt.pid",
+     "host":"staging.thethingsnetwork.org",
+     "port":"1883",
+     "username":"70B3D57ED0000185",
+     "userPassword":"vjGkwZGzSGSkhzMawoXv59f84oGjeYHX0mBbC1c7Yq0="
+  }
+
+]

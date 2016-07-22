@@ -4,7 +4,7 @@ import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 @ObjectClassDefinition(name = "Lora enabled Dummy Sensor Configuration")
-public @interface DummySensorCongifuration {
+public @interface LoraSensorConfiguration {
 
 	@AttributeDefinition(name = "Device Name", description = "Provides the name for this device")
 	public String name() default "DummySensor";

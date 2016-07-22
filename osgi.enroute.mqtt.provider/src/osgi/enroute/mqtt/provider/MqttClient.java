@@ -43,7 +43,6 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.log.LogService;
 import org.osgi.service.metatype.annotations.Designate;
@@ -55,8 +54,8 @@ import osgi.enroute.mqtt.configurable.MqttConfiguration;
 /**
  * Implementation of {@link IMqttClient}
  */
-@Designate(ocd = MqttConfiguration.class)
-@Component(configurationPolicy = ConfigurationPolicy.REQUIRE)
+@Designate(ocd = MqttConfiguration.class, factory = true)
+@Component(name="osgi.enroute.mqtt.provider", configurationPolicy = ConfigurationPolicy.REQUIRE)
 public final class MqttClient implements IMqttClient {
 	/**
 	 * MQTT Configuration
@@ -116,11 +115,6 @@ public final class MqttClient implements IMqttClient {
 			this.logService.log(LOG_DEBUG, "Exception while disconnecting");
 		}
 	}
-
-	// @Modified
-	// public void modified(MqttConfiguration conf){
-	// System.out.println("Mqtt modified");
-	// }
 
 	/** {@inheritDoc} */
 	@Override
@@ -269,7 +263,8 @@ public final class MqttClient implements IMqttClient {
 			/** {@inheritDoc} */
 			@Override
 			public void onFailure(final Throwable throwable) {
-				MqttClient.this.errorMsg = "Impossible to CONNECT to the MQTT server, terminating " + throwable.getMessage();
+				MqttClient.this.errorMsg = "Impossible to CONNECT to the MQTT server, terminating "
+						+ throwable.getMessage();
 				MqttClient.this.logService.log(LOG_ERROR, MqttClient.this.errorMsg);
 			}
 

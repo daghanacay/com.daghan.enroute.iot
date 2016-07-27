@@ -18,6 +18,7 @@ import com.daghan.iot.core.api.MethodTypeEnum;
 import com.daghan.iot.resource.manager.ResourceRunner;
 
 import aQute.bnd.annotation.headers.ProvideCapability;
+import osgi.enroute.dto.api.DTOs;
 
 /**
  * Maps all the device methods to rest api
@@ -26,37 +27,36 @@ import aQute.bnd.annotation.headers.ProvideCapability;
  *
  */
 @Component(
-//
-service = Servlet.class, //
-name = "daghan.device.rest.simple", //
-property = HttpWhiteboardConstants.HTTP_WHITEBOARD_SERVLET_PATTERN + "=/device/*")
+		//
+		service = Servlet.class, //
+		name = "daghan.device.rest.simple", //
+		property = HttpWhiteboardConstants.HTTP_WHITEBOARD_SERVLET_PATTERN + "=/devices/*")
 public class DeviceRestProvider extends HttpServlet {
 	@Reference
 	private ResourceRunner rm;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String returnVal = null;
+		Object returnVal = null;
 		String[] pathInfo = req.getPathInfo().split("/");
 		if (pathInfo.length > 2) {
 			resp.getWriter().println("url does not support level after " + pathInfo[1]);
 		}
 		try {
-			returnVal = rm.activateResource(pathInfo[1], null, String.class, MethodTypeEnum.GET);
+			returnVal = rm.activateResource(pathInfo[1], null, Object.class, MethodTypeEnum.GET);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException e) {
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			resp.getWriter().println("could not GET method on the device " + pathInfo[1]);
 			return;
 		}
-		if (returnVal == null){
+		if (returnVal == null) {
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			resp.getWriter().println("could not GET method on the device " + pathInfo[1]);
-		}else{
+		} else {
 			resp.setStatus(HttpServletResponse.SC_OK);
-			resp.getWriter().println(returnVal);
+			resp.getWriter().println(returnVal.toString());
 		}
-		
 	}
 
 	@Override
@@ -74,17 +74,16 @@ public class DeviceRestProvider extends HttpServlet {
 			resp.getWriter().println("could not POST method on the device " + pathInfo[1]);
 			return;
 		}
-		if (returnVal == null){
+		if (returnVal == null) {
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			resp.getWriter().println("could not POST method on the device " + pathInfo[1]);
-		}else{
+		} else {
 			resp.getWriter().println(returnVal);
 		}
 	}
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		super.doDelete(req, resp);
 	}
 }

@@ -6,8 +6,9 @@ Bundle-Version: 1.0.0.${tstamp}
 Bundle-Description: \
 	Heat map application using mqtt provider and rest calls. 
 
-Private-Package:  \
-	com.daghan.heatmap.application
+Private-Package: \
+	com.daghan.heatmap.application,\
+	com.daghan.heatmap.application.dto
 
 EnRoute-Application: 	com.daghan.heatmap
 JPM-Command:			heatmap
@@ -20,7 +21,8 @@ JPM-Command:			heatmap
 
 -buildpath: \
 	osgi.enroute.base.api,\
-	com.daghan.iot.api;version=latest
+	com.daghan.iot.api;version=latest,\
+	com.daghan.device.dummylorasensor.api;version=latest
 	
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12

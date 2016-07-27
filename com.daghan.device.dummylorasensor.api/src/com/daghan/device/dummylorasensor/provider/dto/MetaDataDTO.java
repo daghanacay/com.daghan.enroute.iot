@@ -1,6 +1,8 @@
 package com.daghan.device.dummylorasensor.provider.dto;
 
-public class MetaDataDTO {
+import org.osgi.dto.DTO;
+
+public class MetaDataDTO extends DTO {
 	public Double frequency;
 	public String datarate;
 	public String codingrate;
@@ -15,6 +17,6 @@ public class MetaDataDTO {
 	public String modulation;
 	public String gateway_eui;
 	public double altitude;
-	public double longitude;
-	public double latitude;
+	public double longitude = -122.433523;
+	public double latitude = 37.774546;
 }

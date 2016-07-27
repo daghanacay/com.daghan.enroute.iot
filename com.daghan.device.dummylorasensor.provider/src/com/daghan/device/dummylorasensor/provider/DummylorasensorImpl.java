@@ -1,5 +1,6 @@
 package com.daghan.device.dummylorasensor.provider;
 
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.osgi.service.component.annotations.Activate;
@@ -21,11 +22,11 @@ import osgi.enroute.mqtt.api.MessageListener;
 @Component(name = "com.daghan.device.lorasensor", configurationPolicy = ConfigurationPolicy.REQUIRE)
 @Designate(ocd = LoraSensorConfiguration.class, factory = true)
 public class DummylorasensorImpl implements Device {
-	private AtomicReference<SensorDataDTO> lastKnownData;
+	private AtomicReference<SensorDataDTO> lastKnownData = new AtomicReference<SensorDataDTO>(new SensorDataDTO());
 	@Reference
 	private DTOs dtoConverter;
 	private LoraSensorConfiguration deviceConfiguration;
-
+	// lambda that is subscribed to MQTT
 	private MessageListener subsMethod = (str) -> {
 		try {
 			lastKnownData.set(dtoConverter.decoder(SensorDataDTO.class).get(str));
@@ -33,7 +34,7 @@ public class DummylorasensorImpl implements Device {
 			e.printStackTrace();
 		}
 	};
-	
+
 	@Reference
 	IMqttClient mqttClient;
 

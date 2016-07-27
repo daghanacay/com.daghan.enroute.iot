@@ -51,7 +51,7 @@ public class ResourceRunner {
 
 		public <Output, Input> Output activateResource(String requestServiceId, Input input, Class<?> outputType,
 				MethodTypeEnum methodType) throws IllegalAccessException, IllegalArgumentException,
-						InvocationTargetException, NoSuchMethodException {
+				InvocationTargetException, NoSuchMethodException {
 			Object[] services = getServices();
 			if (services == null)
 				return null;
@@ -64,7 +64,7 @@ public class ResourceRunner {
 						providerAnnotation = method.getAnnotation(methodType.getAnnotation());
 						// We only allow zero or one parameter methods
 						if (providerAnnotation != null && method.getParameters().length <= 1
-								&& method.getReturnType().isAssignableFrom(outputType)) {
+								&& outputType.isAssignableFrom(method.getReturnType())) {
 							// Allow calling even private, protected, or no
 							// modifier
 							method.setAccessible(true);

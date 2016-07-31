@@ -1,6 +1,6 @@
 package com.daghan.device.dummylorasensor.provider;
 
-import java.nio.file.AtomicMoveNotSupportedException;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.osgi.service.component.annotations.Activate;
@@ -26,6 +26,7 @@ public class DummylorasensorImpl implements Device {
 	@Reference
 	private DTOs dtoConverter;
 	private LoraSensorConfiguration deviceConfiguration;
+	private SensorDataDTO newData = new SensorDataDTO();
 	// lambda that is subscribed to MQTT
 	private MessageListener subsMethod = (str) -> {
 		try {
@@ -53,7 +54,11 @@ public class DummylorasensorImpl implements Device {
 
 	@GetMethod
 	public SensorDataDTO getData() {
-		return lastKnownData.get();
+		// TODO DELETE temporary random data
+		newData.payload = String.valueOf(120 * Math.random() - 20);
+		newData.metadata.get(0).latitude += (.01 * (Math.random() - 0.5));
+		newData.metadata.get(0).longitude += (.01 * (Math.random() - 0.5));
+		return lastKnownData.getAndSet(newData);
 	}
 
 	@Override

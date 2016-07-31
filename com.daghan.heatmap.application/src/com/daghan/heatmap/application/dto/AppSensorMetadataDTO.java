@@ -1,5 +1,7 @@
 package com.daghan.heatmap.application.dto;
 
-public class AppSensorMetadataDTO {
+import org.osgi.dto.DTO;
+
+public class AppSensorMetadataDTO extends DTO{
 	public String notes;
 }

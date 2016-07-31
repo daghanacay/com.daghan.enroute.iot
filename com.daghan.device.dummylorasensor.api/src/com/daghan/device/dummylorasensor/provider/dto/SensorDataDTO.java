@@ -7,7 +7,7 @@ import org.osgi.dto.DTO;
 
 public class SensorDataDTO extends DTO{
 // With default values
-	public String payload = "0.3";
+	public String payload = "25";
 	public int port;
 	public int counter;
 	public String dev_eui;

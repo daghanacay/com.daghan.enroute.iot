@@ -14,17 +14,22 @@ app
 			    }, 10000);
 
 			    updateData = function() {
-				$http.get("../rest/sensorData").success( 
+				$http.get("../rest/sensorData").success(
 					function(data) {
-					    $scope.sensorData = data
-						    .map(function(dat) {
-							return [ dat.latitude, dat.longitude, dat.sensorValue ]
-						    });
+					    // Store the data
+					    $scope.sensorData = data;
+					    // Convert sensor data to be used by
+					    // the heat map
+					    mapData = data.map(function(dat) {
+						return [ dat.latitude,
+							dat.longitude,
+							dat.sensorNormalized ]
+					    });
 					    $scope.layers.overlays = {
 						heat : {
 						    name : 'Heat Map',
 						    type : 'heat',
-						    data : $scope.sensorData,
+						    data : mapData,
 						    layerOptions : {
 							radius : 20,
 							blur : 10
@@ -47,8 +52,8 @@ app
 						},
 						markers : {
 						    melbourne : {
-							lat : -37.8136,
-							lng : 144.9631,
+							lat : 37.774546,
+							lng : -122.433523
 						    }
 						},
 
@@ -64,11 +69,11 @@ app
 					    });
 			} ]);
 
-//Configuating navigation
+// Configuating navigation
 app.config([ "$routeProvider", function($routeProvider) {
     $routeProvider.when("/sensorDataView", {
 	templateUrl : "/heatmap/views/SensorDataView.html",
-	controller : ""
+	controller : "SensorDataController"
     }).when("/warningsView", {
 	templateUrl : "/heatmap/views/WarningsView.html",
 	controller : ""

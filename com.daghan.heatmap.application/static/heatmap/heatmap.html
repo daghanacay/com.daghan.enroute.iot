@@ -13,6 +13,8 @@
 <title></title>
 <link rel="stylesheet"
 	href="../bower_components/leaflet/0.7.7/leaflet.css" />
+<link rel="stylesheet"
+	href="../bower_components/fontawesome/4.6.3/css/font-awesome.min.css" />
 <link rel="stylesheet" type="text/css"
 	href="/osgi.enroute.webresource/${bsn}/${Bundle-Version}/*.css">
 
@@ -25,31 +27,10 @@
 </head>
 <body ng-controller="MainHeatmapController">
 	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Heatmap With Lora</a>
-			</div>
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse"
-				id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="#sensorDataView">Sensor Data</a></li>
-					<li><a href="#warningsView">Warnings</a></li>
-				</ul>
-			</div>
-			<!-- /.navbar-collapse -->
-		</div>
-		<!-- /.container -->
-	</nav>
-
+	<ul class="w3-navbar w3-black">
+		<li><a href="#"><i class="fa fa-home w3-large"></i></a></li>
+		<li><a href="#sensorDataView">Sensor Data</a></li>
+	</ul>
 
 	<!-- Map -->
 	<leaflet lf-center="center" markers="markers" layers="layers"

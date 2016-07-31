@@ -33,9 +33,10 @@ public class HeatmapApplication implements REST {
 	
 	public List<AppSensorDataDTO> getSensorData() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException{
 		List<AppSensorDataDTO> returnVal = new ArrayList<>();
+		SensorDataDTO sensorData;
 		for (String sensorName:sensorNames){
-			SensorDataDTO sensorData = rm.activateResource(sensorName, null, SensorDataDTO.class, MethodTypeEnum.GET);
-			returnVal.add(converter.convert(sensorData));
+			sensorData = rm.activateResource(sensorName, null, SensorDataDTO.class, MethodTypeEnum.GET);
+			returnVal.add(converter.convert(sensorName, sensorData));
 		}
 		return returnVal;
 	}

@@ -1,4 +1,5 @@
 app.controller("SensorDataController", [ '$scope', function($scope) {
+    $scope.$parent.mapHeight = "480px";
     // Function to center the map on the selected sensor and create marker at
     // the selected location
     $scope.centerSensor = function(sensorData) {
@@ -8,7 +9,8 @@ app.controller("SensorDataController", [ '$scope', function($scope) {
 	$scope.$parent.markers = {
 	    m1 : {
 		lat : sensorData.latitude,
-		lng : sensorData.longitude
+		lng : sensorData.longitude,
+		message : 'IEU val: ' + JSON.parse(sensorData.metadata.notes).gateway_eui
 	    }
 	};
 

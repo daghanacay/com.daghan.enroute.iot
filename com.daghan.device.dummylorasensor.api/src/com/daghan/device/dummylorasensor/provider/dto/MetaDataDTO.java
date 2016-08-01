@@ -17,6 +17,6 @@ public class MetaDataDTO extends DTO {
 	public String modulation;
 	public String gateway_eui;
 	public double altitude;
-	public double longitude = -122.433523;
-	public double latitude = 37.774546;
+	public double longitude = 144.9633200;
+	public double latitude = -37.8140000;
 }

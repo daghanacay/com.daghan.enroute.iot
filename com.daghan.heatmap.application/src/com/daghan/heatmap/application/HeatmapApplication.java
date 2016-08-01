@@ -10,6 +10,7 @@ import org.osgi.service.component.annotations.Reference;
 import com.daghan.device.dummylorasensor.provider.dto.SensorDataDTO;
 import com.daghan.heatmap.application.dto.AppSensorDataDTO;
 import com.daghan.heatmap.application.dto.DataConverter;
+import com.daghan.iot.core.api.Device;
 import com.daghan.iot.core.api.MethodTypeEnum;
 import com.daghan.iot.resource.manager.ResourceRunner;
 
@@ -27,16 +28,18 @@ import osgi.enroute.webserver.capabilities.RequireWebServerExtender;
 public class HeatmapApplication implements REST {
 	@Reference
 	private ResourceRunner rm; 
-	// List of sensor names see configuration/configuration.json
-	private String[] sensorNames = {"sensor1","sensor2"};
+	// List of lora sensors see configuration/configuration.json
+	@Reference(target="(service.factoryPid=com.daghan.device.lorasensor)")
+	List<Device> loraSensors;
+	
 	private DataConverter converter = new DataConverter();
 	
 	public List<AppSensorDataDTO> getSensorData() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException{
 		List<AppSensorDataDTO> returnVal = new ArrayList<>();
 		SensorDataDTO sensorData;
-		for (String sensorName:sensorNames){
-			sensorData = rm.activateResource(sensorName, null, SensorDataDTO.class, MethodTypeEnum.GET);
-			returnVal.add(converter.convert(sensorName, sensorData));
+		for (Device loraSensor:loraSensors){
+			sensorData = rm.activateResource(loraSensor.getId(), null, SensorDataDTO.class, MethodTypeEnum.GET);
+			returnVal.add(converter.convert(loraSensor.getId(), sensorData));
 		}
 		return returnVal;
 	}

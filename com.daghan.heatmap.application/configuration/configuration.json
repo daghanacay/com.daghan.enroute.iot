@@ -1,17 +1,80 @@
 [
   {
      "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor0",
+     "name":"realSensor",
+     "subscriptionChannel":"70B3D57ED0000185/devices/0000000011223344/up",
+     "publishChannel":"70B3D57ED0000185/devices/0000000011223344/up"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
      "service.pid":"pid.sensor1",
-     "name":"sensor1",
+     "name":"simulatedSensor1",
      "subscriptionChannel":"70B3D57ED0000185/devices/0000000001020304/up",
      "publishChannel":"70B3D57ED0000185/devices/0000000001020304/up"
   },
   {
      "service.factoryPid":"com.daghan.device.lorasensor",
      "service.pid":"pid.sensor2",
-     "name":"sensor2",
+     "name":"simulatedSensor2",
      "subscriptionChannel":"70B3D57ED0000185/devices/0000000002030405/up",
      "publishChannel":"70B3D57ED0000185/devices/0000000002030405/up"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor3",
+     "name":"sensor3",
+     "subscriptionChannel":"N/A",
+     "publishChannel":"N/A"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor4",
+     "name":"sensor4",
+     "subscriptionChannel":"N/A",
+     "publishChannel":"N/A"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor5",
+     "name":"sensor5",
+     "subscriptionChannel":"N/A",
+     "publishChannel":"N/A"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor6",
+     "name":"sensor6",
+     "subscriptionChannel":"N/A",
+     "publishChannel":"N/A"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor7",
+     "name":"sensor7",
+     "subscriptionChannel":"N/A",
+     "publishChannel":"N/A"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor8",
+     "name":"sensor8",
+     "subscriptionChannel":"N/A",
+     "publishChannel":"N/A"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor9",
+     "name":"sensor9",
+     "subscriptionChannel":"N/A",
+     "publishChannel":"N/A"
+  },
+  {
+     "service.factoryPid":"com.daghan.device.lorasensor",
+     "service.pid":"pid.sensor10",
+     "name":"sensor10",
+     "subscriptionChannel":"N/A",
+     "publishChannel":"N/A"
   },
   {
      "service.factoryPid":"osgi.enroute.mqtt.provider",

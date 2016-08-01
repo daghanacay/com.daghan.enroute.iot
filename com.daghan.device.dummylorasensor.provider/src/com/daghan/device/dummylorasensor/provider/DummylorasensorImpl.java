@@ -1,5 +1,6 @@
 package com.daghan.device.dummylorasensor.provider;
 
+import java.util.Base64;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -22,6 +23,7 @@ import osgi.enroute.mqtt.api.MessageListener;
 @Component(name = "com.daghan.device.lorasensor", configurationPolicy = ConfigurationPolicy.REQUIRE)
 @Designate(ocd = LoraSensorConfiguration.class, factory = true)
 public class DummylorasensorImpl implements Device {
+	private static final String NOT_AVAILABLE = "N/A";
 	private AtomicReference<SensorDataDTO> lastKnownData = new AtomicReference<SensorDataDTO>(new SensorDataDTO());
 	@Reference
 	private DTOs dtoConverter;
@@ -30,7 +32,10 @@ public class DummylorasensorImpl implements Device {
 	// lambda that is subscribed to MQTT
 	private MessageListener subsMethod = (str) -> {
 		try {
-			lastKnownData.set(dtoConverter.decoder(SensorDataDTO.class).get(str));
+			SensorDataDTO newData = dtoConverter.decoder(SensorDataDTO.class).get(str);
+			// Decode payload
+			newData.payload = new String(Base64.getDecoder().decode(newData.payload));
+			lastKnownData.set(newData);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,11 +59,20 @@ public class DummylorasensorImpl implements Device {
 
 	@GetMethod
 	public SensorDataDTO getData() {
-		// TODO DELETE temporary random data
-		newData.payload = String.valueOf(120 * Math.random() - 20);
-		newData.metadata.get(0).latitude += (.01 * (Math.random() - 0.5));
-		newData.metadata.get(0).longitude += (.01 * (Math.random() - 0.5));
-		return lastKnownData.getAndSet(newData);
+		createRandomData();
+		return lastKnownData.get();
+	}
+
+	// Creates a random data if device configuration defines either of
+	// subscription or publish channel as "N/A"
+	private void createRandomData() {
+		if (NOT_AVAILABLE.equals(deviceConfiguration.subscriptionChannel())
+				|| NOT_AVAILABLE.equals(deviceConfiguration.publishChannel())) {
+			newData.payload = String.valueOf(120 * Math.random() - 20);
+			newData.metadata.get(0).latitude += (.01 * (Math.random() - 0.5));
+			newData.metadata.get(0).longitude += (.01 * (Math.random() - 0.5));
+			lastKnownData.set(newData);
+		}
 	}
 
 	@Override

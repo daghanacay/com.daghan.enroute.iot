@@ -7,6 +7,10 @@ app
 			"$http",
 			"$interval",
 			function($scope, $http, $interval) {
+			    $scope.$on('$routeChangeStart', function(event,
+				    next, current) {
+				$scope.mapHeight = "950px";
+			    });
 
 			    $interval(function() {
 				updateData();
@@ -46,17 +50,11 @@ app
 					    $scope,
 					    {
 						center : {
-						    lat : 37.774546,
-						    lng : -122.433523,
+						    lat : -37.8140000,
+						    lng : 144.9633200,
 						    zoom : 16
 						},
-						markers : {
-						    melbourne : {
-							lat : 37.774546,
-							lng : -122.433523
-						    }
-						},
-
+						markers : {},
 						layers : {
 						    baselayers : {
 							osm : {

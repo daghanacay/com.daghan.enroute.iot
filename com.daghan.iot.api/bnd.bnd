@@ -24,4 +24,6 @@ Private-Package: \
 	com.daghan.resource.command,\
 	com.daghan.resource.web.rest,\
 	com.daghan.resource.web.rest.dto,\
-	com.daghan.iot.utils.internal
+	com.daghan.iot.utils.internal,\
+	com.daghan.devices.rest,\
+	com.daghan.devices.rest.auth

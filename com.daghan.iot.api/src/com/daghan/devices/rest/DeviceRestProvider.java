@@ -1,4 +1,4 @@
-package com.daghan.iot.utils.internal;
+package com.daghan.devices.rest;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -10,15 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.http.whiteboard.HttpWhiteboardConstants;
 
 import com.daghan.iot.core.api.MethodTypeEnum;
 import com.daghan.iot.resource.manager.ResourceRunner;
-
-import aQute.bnd.annotation.headers.ProvideCapability;
-import osgi.enroute.dto.api.DTOs;
 
 /**
  * Maps all the device methods to rest api
@@ -26,11 +22,10 @@ import osgi.enroute.dto.api.DTOs;
  * @author daghan
  *
  */
-@Component(
-		//
-		service = Servlet.class, //
-		name = "daghan.device.rest.simple", //
-		property = HttpWhiteboardConstants.HTTP_WHITEBOARD_SERVLET_PATTERN + "=/devices/*")
+@Component(service = Servlet.class, property = {
+		HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_SELECT + "=("
+				+ HttpWhiteboardConstants.HTTP_WHITEBOARD_CONTEXT_NAME + "=devicesContext)",
+		HttpWhiteboardConstants.HTTP_WHITEBOARD_SERVLET_PATTERN + "=/devices" })
 public class DeviceRestProvider extends HttpServlet {
 	@Reference
 	private ResourceRunner rm;

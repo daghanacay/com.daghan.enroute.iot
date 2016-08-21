@@ -1,4 +1,4 @@
-package com.daghan.devices.rest.auth;
+package com.daghan.devices.rest.context;
 
 import java.io.IOException;
 

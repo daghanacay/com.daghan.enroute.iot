@@ -22,8 +22,9 @@ Export-Package: \
 -runbundles: org.apache.felix.log;version='[1.0.1,1.0.2)'
 Private-Package: \
 	com.daghan.resource.command,\
+	com.daghan.devices.rest.auth,\
 	com.daghan.resource.web.rest,\
 	com.daghan.resource.web.rest.dto,\
 	com.daghan.iot.utils.internal,\
 	com.daghan.devices.rest,\
-	com.daghan.devices.rest.auth
+	com.daghan.devices.rest.context

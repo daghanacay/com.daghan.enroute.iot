@@ -12,12 +12,14 @@ JPM-Command:					heatmap
 
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=com.daghan.heatmap.application)',\
-	osgi.identity;filter:='(osgi.identity=com.daghan.device.dummylorasensor.provider)'
+	osgi.identity;filter:='(osgi.identity=com.daghan.device.dummylorasensor.provider)',\
+	osgi.identity;filter:='(osgi.identity=com.daghan.resource.application)'
 
 -runbundles: \
 	com.daghan.device.dummylorasensor.provider;version=snapshot,\
 	com.daghan.heatmap.application;version=snapshot,\
 	com.daghan.iot.api;version=snapshot,\
+	com.daghan.resource.application;version=snapshot,\
 	org.apache.felix.configadmin;version='[1.8.6,1.8.7)',\
 	org.apache.felix.http.api;version='[3.0.0,3.0.1)',\
 	org.apache.felix.http.jetty;version='[3.1.0,3.1.1)',\
@@ -31,6 +33,7 @@ JPM-Command:					heatmap
 	org.fusesource.hawtdispatch.hawtdispatch;version='[1.22.0,1.22.1)',\
 	org.fusesource.hawtdispatch.hawtdispatch-transport;version='[1.22.0,1.22.1)',\
 	org.fusesource.mqtt-client.mqtt-client;version='[1.14.0,1.14.1)',\
+	org.knopflerfish.bundle.useradmin;version='[4.1.1,4.1.2)',\
 	org.osgi.service.event;version='[1.3.1,1.3.2)',\
 	org.osgi.service.http.whiteboard;version='[1.0.0,1.0.1)',\
 	org.osgi.service.metatype;version='[1.3.0,1.3.1)',\
